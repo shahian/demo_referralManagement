@@ -6,6 +6,7 @@ import com.haytech.demo_referralmanagement.service.intrface.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +41,13 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void deleteCompany(Long companyId) {
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new EntityNotFoundException("Company not found"));
+        if (company.getCourses().stream().count()>0) {
+            throw new EntityExistsException("company has courses");
+        }
         companyRepository.deleteById(companyId);
+
     }
 
     @Override

@@ -39,8 +39,9 @@ public class CompanyController {
         return companyService.updateCompany(companyId, company);
     }
 
-    @DeleteMapping(value = "/v1/company",params ="/{companyId}")
+    @DeleteMapping(value = "/v1/company/{companyId}")
     public void deleteCompany(@PathVariable Long companyId) {
+
         companyService.deleteCompany(companyId);
     }
 
@@ -54,7 +55,7 @@ public class CompanyController {
         return companyCourseService.getCoursesByCompany(companyId);
     }
 
-    @DeleteMapping(value = "/v1/company",params ="/{companyId}/courses/{courseId}")
+    @DeleteMapping(value = "/v1/company/{companyId}/courses/{courseId}")
     public void removeCourseFromCompany(@PathVariable Long companyId, @PathVariable Long courseId) {
         companyCourseService.removeCourseFromCompany(companyId, courseId);
     }

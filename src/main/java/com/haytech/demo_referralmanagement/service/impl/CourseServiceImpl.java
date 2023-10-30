@@ -1,11 +1,13 @@
 package com.haytech.demo_referralmanagement.service.impl;
 
+import com.haytech.demo_referralmanagement.model.entity.Company;
 import com.haytech.demo_referralmanagement.model.entity.Course;
 import com.haytech.demo_referralmanagement.repository.CourseRepository;
 import com.haytech.demo_referralmanagement.service.intrface.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
@@ -36,6 +38,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void deleteCourse(Long courseId) {
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+        if (course.getCompanies().stream().count() > 0) {
+            throw new EntityExistsException("Course has Company");
+        }
         courseRepository.deleteById(courseId);
     }
 

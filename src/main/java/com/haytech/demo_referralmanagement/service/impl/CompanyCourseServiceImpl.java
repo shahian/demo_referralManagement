@@ -43,9 +43,11 @@ public class CompanyCourseServiceImpl implements CompanyCourseService {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
-        if (company.getCourses().contains(course)) {
+        if (company.getCourses().contains(course) && course.getCompanies().contains(company)) {
             company.getCourses().remove(course);
+            course.getCompanies().remove(company);
             companyRepository.save(company);
+            courseRepository.save(course);
         }
     }
 }
