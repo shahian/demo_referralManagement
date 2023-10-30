@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ public class CompanyCourseServiceImpl implements CompanyCourseService {
     public void addCourseToCompany(Long companyId, Course course) {
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found"));
-        Course newCourse =courseRepository.save(course);
+        Course newCourse = courseRepository.save(course);
         company.getCourses().add(newCourse);
         companyRepository.save(company);
 
@@ -34,21 +35,29 @@ public class CompanyCourseServiceImpl implements CompanyCourseService {
     public List<Course> getCoursesByCompany(Long companyId) {
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found"));
-        return  company.getCourses();
+        return company.getCourses();
     }
 
+    @Transactional
     @Override
     public void removeCourseFromCompany(Long companyId, Long courseId) {
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found"));
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-
-        if (company.getCourses().contains(course) && course.getCompanies().contains(company)) {
+        if (company.getCourses().contains(course)) {
             company.getCourses().remove(course);
-            course.getCompanies().remove(company);
             companyRepository.save(company);
-            courseRepository.save(course);
+            courseRepository.delete(course);
         }
+//        if (company.getCourses().contains(course) && course.getCompanies().contains(company)) {
+//            company.getCourses().remove(course);
+//            course.getCompanies().remove(company);
+//
+//            companyRepository.save(company);
+//            courseRepository.save(course);
+//            companyRepository.delete(company);
+//            courseRepository.delete(course);
+//        }
     }
 }
