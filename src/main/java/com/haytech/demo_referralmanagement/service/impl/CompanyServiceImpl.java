@@ -47,7 +47,6 @@ public class CompanyServiceImpl implements CompanyService {
             throw new EntityExistsException("company has courses");
         }
         companyRepository.deleteById(companyId);
-
     }
 
     @Override

@@ -38,7 +38,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void deleteCourse(Long courseId) {
-
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
         if (course.getCompanies().stream().count() > 0) {

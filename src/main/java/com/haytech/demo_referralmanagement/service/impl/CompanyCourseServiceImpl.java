@@ -27,6 +27,7 @@ public class CompanyCourseServiceImpl implements CompanyCourseService {
         Course newCourse =courseRepository.save(course);
         company.getCourses().add(newCourse);
         companyRepository.save(company);
+
     }
 
     @Override

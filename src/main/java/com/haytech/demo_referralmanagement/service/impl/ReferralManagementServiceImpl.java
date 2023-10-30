@@ -55,8 +55,6 @@ public class ReferralManagementServiceImpl implements ReferralManagementService 
 
         Specification<ReferralManagement> spec = ReferralManagementSpecifications.findByCriteria(
                 personnelId, insuranceNumber, nationalCode, processed, referrType);
-
-        // Use the specification to query the repository
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), referralManagementMapper.DTO_LIST(referralManagementRepository.findAll(spec)));
     }
 
