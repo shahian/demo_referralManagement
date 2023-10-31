@@ -12,5 +12,5 @@ import java.util.List;
 public interface CompanyMapper {
     List<CompanyDTO> DTO_LIST(List<Company> companyList);
 
-    CompanyDTO DTO_ManagementDto(Company company);
+    CompanyDTO DTO_Company(Company company);
 }

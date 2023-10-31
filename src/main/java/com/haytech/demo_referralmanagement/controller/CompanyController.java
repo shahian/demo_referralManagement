@@ -48,7 +48,6 @@ public class CompanyController {
     @DeleteMapping(value = "/v1/company/{companyId}")
     public ResponseEntity<?> deleteCompany(@PathVariable Long companyId) {
         BaseDTO baseDTO = companyService.deleteCompany(companyId);
-        ;
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
 
     }

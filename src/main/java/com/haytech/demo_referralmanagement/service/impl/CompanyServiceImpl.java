@@ -28,7 +28,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public BaseDTO createCompany(Company company) {
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_ManagementDto(companyRepository.save(company)));
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(companyRepository.save(company)));
 
     }
 
@@ -44,7 +44,7 @@ public class CompanyServiceImpl implements CompanyService {
                 .orElseThrow(() -> new EntityNotFoundException("Company not found"));
         existingCompany.setName(updatedCompany.getName());
         existingCompany.setCode(updatedCompany.getCode());
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_ManagementDto(existingCompany));
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(existingCompany));
 
     }
 
@@ -61,7 +61,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public BaseDTO getCompany(Long companyId) {
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_ManagementDto(companyRepository.getById(companyId)));
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(companyRepository.getById(companyId)));
 
     }
 }

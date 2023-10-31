@@ -7,14 +7,14 @@ import com.haytech.demo_referralmanagement.model.enums.ReferrType;
 import java.util.List;
 
 public interface CourseService {
-    Course createCourse(Course course);
+    BaseDTO createCourse(Course course);
 
 
-    List<Course> getAllCourses();
+    BaseDTO getAllCourses();
 
-    Course updateCourse(Long courseId, Course updatedCourse);
+    BaseDTO updateCourse(Long courseId, Course updatedCourse);
 
-    void deleteCourse(Long courseId);
+    BaseDTO deleteCourse(Long courseId);
 
-    Course getCourse(Long courseId);
+    BaseDTO getCourse(Long courseId);
 }
