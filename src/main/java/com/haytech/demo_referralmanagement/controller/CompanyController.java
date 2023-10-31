@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/api")
 @RestController
@@ -23,46 +21,55 @@ public class CompanyController {
     private CompanyCourseService companyCourseService;
 
     @PostMapping(value = "/v1/company")
-    public Company createCompany(@RequestBody Company company) {
-        return companyService.createCompany(company);
+    public ResponseEntity<?> createCompany(@RequestBody Company company) {
+        BaseDTO baseDTO = companyService.createCompany(company);
+        return new ResponseEntity<>(baseDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping(value ="v1/companies")
+    @GetMapping(value = "v1/companies")
     public ResponseEntity<?> getAllCompanies() {
 
-        BaseDTO baseDTO =  companyService.getAllCompanies();
+        BaseDTO baseDTO = companyService.getAllCompanies();
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "/v1/company")
-    public Company getCompany(@RequestParam Long companyId) {
-        return companyService.getCompany(companyId);
+    public ResponseEntity<?> getCompany(@RequestParam Long companyId) {
+        BaseDTO baseDTO = companyService.getCompany(companyId);
+        return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
     @PutMapping(value = "/v1/company")
-    public Company updateCompany(@RequestParam Long companyId, @RequestBody Company company) {
-        return companyService.updateCompany(companyId, company);
+    public ResponseEntity<?> updateCompany(@RequestParam Long companyId, @RequestBody Company company) {
+        BaseDTO baseDTO = companyService.updateCompany(companyId, company);
+        return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/v1/company/{companyId}")
-    public void deleteCompany(@PathVariable Long companyId) {
+    public ResponseEntity<?> deleteCompany(@PathVariable Long companyId) {
+        BaseDTO baseDTO = companyService.deleteCompany(companyId);
+        ;
+        return new ResponseEntity<>(baseDTO, HttpStatus.OK);
 
-        companyService.deleteCompany(companyId);
     }
 
     @PostMapping(value = "/v1/course_company")
-    public void addCourseToCompany(@RequestParam Long companyId, @RequestBody Course course) {
-        companyCourseService.addCourseToCompany(companyId, course);
+    public ResponseEntity<?> addCourseToCompany(@RequestParam Long companyId, @RequestBody Course course) {
+        BaseDTO baseDTO = companyCourseService.addCourseToCompany(companyId, course);
+        return new ResponseEntity<>(baseDTO, HttpStatus.OK);
+
     }
 
-    @GetMapping(value = "/v1/company",params ="/{companyId}/courses")
-    public List<Course> getCoursesByCompany(@PathVariable Long companyId) {
-        return companyCourseService.getCoursesByCompany(companyId);
+    @GetMapping(value = "/v1/company", params = "/{companyId}/courses")
+    public ResponseEntity<?> getCoursesByCompany(@PathVariable Long companyId) {
+        BaseDTO baseDTO = companyCourseService.getCoursesByCompany(companyId);
+        return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/v1/company/{companyId}/courses/{courseId}")
-    public void removeCourseFromCompany(@PathVariable Long companyId, @PathVariable Long courseId) {
-        companyCourseService.removeCourseFromCompany(companyId, courseId);
+    public ResponseEntity<?> removeCourseFromCompany(@PathVariable Long companyId, @PathVariable Long courseId) {
+        BaseDTO baseDTO = companyCourseService.removeCourseFromCompany(companyId, courseId);
+        return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
 }

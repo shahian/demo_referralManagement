@@ -9,9 +9,9 @@ import java.util.Set;
 
 
 public interface CompanyCourseService {
-    void addCourseToCompany(Long companyId, Course course);
+    BaseDTO addCourseToCompany(Long companyId, Course course);
 
-    List<Course> getCoursesByCompany(Long companyId);
+    BaseDTO getCoursesByCompany(Long companyId);
 
-    void removeCourseFromCompany(Long companyId, Long courseId);
+    BaseDTO removeCourseFromCompany(Long companyId, Long courseId);
 }

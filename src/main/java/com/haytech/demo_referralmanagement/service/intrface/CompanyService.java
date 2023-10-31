@@ -8,13 +8,13 @@ import java.util.Optional;
 
 
 public interface CompanyService {
-    Company createCompany(Company company);
+    BaseDTO createCompany(Company company);
 
     BaseDTO getAllCompanies();
 
-    Company updateCompany(Long companyId, Company updatedCompany);
+    BaseDTO updateCompany(Long companyId, Company updatedCompany);
 
-    void deleteCompany(Long companyId);
+    BaseDTO deleteCompany(Long companyId);
 
-    Company getCompany(Long companyId);
+    BaseDTO getCompany(Long companyId);
 }

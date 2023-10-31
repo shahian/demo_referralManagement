@@ -27,9 +27,9 @@ public class CompanyServiceImpl implements CompanyService {
 
 
     @Override
-    public Company createCompany(Company company) {
+    public BaseDTO createCompany(Company company) {
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_ManagementDto(companyRepository.save(company)));
 
-        return companyRepository.save(company);
     }
 
     @Override
@@ -39,28 +39,29 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company updateCompany(Long companyId, Company updatedCompany) {
+    public BaseDTO updateCompany(Long companyId, Company updatedCompany) {
         Company existingCompany = companyRepository.findById(companyId)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found"));
-
         existingCompany.setName(updatedCompany.getName());
         existingCompany.setCode(updatedCompany.getCode());
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_ManagementDto(existingCompany));
 
-        return companyRepository.save(existingCompany);
     }
 
     @Override
-    public void deleteCompany(Long companyId) {
+    public BaseDTO deleteCompany(Long companyId) {
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found"));
-        if (company.getCourses().stream().count()>0) {
+        if (company.getCourses().stream().count() > 0) {
             throw new EntityExistsException("company has courses");
         }
         companyRepository.deleteById(companyId);
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), company);
     }
 
     @Override
-    public Company getCompany(Long companyId) {
-        return companyRepository.getById(companyId);
+    public BaseDTO getCompany(Long companyId) {
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_ManagementDto(companyRepository.getById(companyId)));
+
     }
 }
