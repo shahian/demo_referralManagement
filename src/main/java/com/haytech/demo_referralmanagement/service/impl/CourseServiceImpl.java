@@ -27,8 +27,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public BaseDTO createCourse(Course course) {
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), courseMapper.DTO_Course(courseRepository.save(course)));
 
-        return courseRepository.save(course);
     }
 
     @Override
