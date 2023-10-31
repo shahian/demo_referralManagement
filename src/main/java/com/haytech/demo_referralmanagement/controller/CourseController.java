@@ -30,20 +30,20 @@ public class CourseController {
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/v1/course",params = "/{courseId}")
+    @GetMapping(value = "/v1/course/{courseId}")
     public  ResponseEntity<?> getCourse(@PathVariable Long courseId) {
 
         BaseDTO baseDTO =courseService.getCourse(courseId);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/v1/course",params = "/{courseId}")
+    @PutMapping(value = "/v1/course/{courseId}")
     public  ResponseEntity<?> updateCourse(@PathVariable Long courseId, @RequestBody Course course) {
         BaseDTO baseDTO = courseService.updateCourse(courseId, course);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/v1/course",params = "/{courseId}")
+    @DeleteMapping(value = "/v1/course/{courseId}")
     public  ResponseEntity<?> deleteCourse(@PathVariable Long courseId) {
 
         BaseDTO baseDTO = courseService.deleteCourse(courseId);
