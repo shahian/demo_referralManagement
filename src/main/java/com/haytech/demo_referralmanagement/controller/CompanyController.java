@@ -1,10 +1,13 @@
 package com.haytech.demo_referralmanagement.controller;
 
+import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.entity.Company;
 import com.haytech.demo_referralmanagement.model.entity.Course;
 import com.haytech.demo_referralmanagement.service.intrface.CompanyCourseService;
 import com.haytech.demo_referralmanagement.service.intrface.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +28,10 @@ public class CompanyController {
     }
 
     @GetMapping(value ="v1/companies")
-    public List<Company> getAllCompanies() {
-        return companyService.getAllCompanies();
+    public ResponseEntity<?> getAllCompanies() {
+
+        BaseDTO baseDTO =  companyService.getAllCompanies();
+        return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "/v1/company")
@@ -34,8 +39,8 @@ public class CompanyController {
         return companyService.getCompany(companyId);
     }
 
-    @PutMapping(value = "/v1/company",params ="/{companyId}")
-    public Company updateCompany(@PathVariable Long companyId, @RequestBody Company company) {
+    @PutMapping(value = "/v1/company")
+    public Company updateCompany(@RequestParam Long companyId, @RequestBody Company company) {
         return companyService.updateCompany(companyId, company);
     }
 

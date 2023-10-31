@@ -139,7 +139,7 @@ public class ReferralManagementServiceImplTest {
         // Populate the mockData list with sample ReferralManagement objects
 
         // Mock the behavior of the repository and mapper
-        Mockito.when(referralManagementRepository.findByCriteria(personnelId, insuranceNumber, nationalCode, processed, referrType))
+        Mockito.when(referralManagementRepository.findByQuery(personnelId, insuranceNumber, nationalCode, processed, referrType))
                 .thenReturn(mockData);
 
         List<ReferralManagementDTO> expectedDTOs = new ArrayList<>();
@@ -149,7 +149,7 @@ public class ReferralManagementServiceImplTest {
                 .thenReturn(expectedDTOs);
 
         // Call the service method
-        BaseDTO result = referralManagementService.filterReferralManagement(personnelId, insuranceNumber, nationalCode, processed, referrType);
+        BaseDTO result = referralManagementService.filterReferralManagementCriteria(personnelId, insuranceNumber, nationalCode, processed, referrType);
 
         // Perform assertions
         // You may need to override the equals method in BaseDTO for this comparison

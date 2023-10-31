@@ -65,13 +65,13 @@ public class ReferralManagementControllerTest {
 
         // Mock the behavior of the service to return a BaseDTO
         BaseDTO expectedBaseDTO = new BaseDTO(MetaDTO.getInstance(applicationProperties), new ArrayList<>());
-        Mockito.when(referralManagementService.filterReferralManagement(personnelId, insuranceNumber, nationalCode, processed, referrType))
+        Mockito.when(referralManagementService.filterReferralManagementCriteria(personnelId, insuranceNumber, nationalCode, processed, referrType))
                 .thenReturn(expectedBaseDTO);
 
         // Mock the behavior of the applicationProperties
         Mockito.when(applicationProperties.getProperty("your_property")).thenReturn("your_value");
 
-        ResponseEntity<?> response = referralManagementController.searchReferralManagement(
+        ResponseEntity<?> response = referralManagementController.searchReferralManagementCriteria(
                 personnelId, insuranceNumber, nationalCode, processed, referrType);
 
         // Assert that the response status is HttpStatus.OK
