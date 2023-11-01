@@ -18,22 +18,19 @@ import java.util.List;
 @NoArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "insurance_course_type")
+@Table(name = "core_insurance_course_type")
 @Where(clause = "deleted = false")
-public class InsuranceCourseType extends BaseEntity {
+public class CoreInsuranceCourseType extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-    @Column(name = "name",length = 50)
+    @Column(name = "name", length = 256)
     private String name;
-    @Column(name = "code",length = 8)
-    private String code;
-    @ManyToOne()
-    @JoinColumn(name = "company_id")
-    private Company company;
-    @ManyToOne()
-    @JoinColumn(name = "core_insurance_course_type_id")
-    private CoreInsuranceCourseType coreInsuranceCourseType;
 
+    @Column(name = "coreName")
+    private boolean coreName;
+
+    @OneToMany(mappedBy = "core_insurance_course_type",cascade = CascadeType.ALL)
+    private List<InsuranceCourseType> insuranceCourseTypeList;
 }

@@ -7,18 +7,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class CompanyDTO extends BaseEntityDTO{
+public class CoreInsuranceCourseTypeDTO extends BaseEntityDTO{
 
     private long id;
     private String name;
-    private String code;
-    private List<InsuranceCourseType>  insuranceCourseTypeList;
+    private boolean coreName;
+    private List<InsuranceCourseType> insuranceCourseTypeList;
 
 
 }
