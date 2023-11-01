@@ -2,7 +2,6 @@ package com.haytech.demo_referralmanagement.model.entity;
 
 
 import com.haytech.demo_referralmanagement.model.base.BaseEntity;
-import com.haytech.demo_referralmanagement.model.enums.ReferrType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,17 +25,12 @@ public class Company extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-    @Column(name = "name",length = 50)
+    @Column(name = "name", length = 50)
     private String name;
 
-    @Column(name = "code",length = 8)
+    @Column(name = "code", length = 8)
     private String code;
 
-    @ManyToMany
-    @JoinTable(
-            name = "company_course",
-            joinColumns = @JoinColumn(name = "company_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
-    private List<Course> courses;
+    @OneToMany(mappedBy = "company",cascade = CascadeType.ALL)
+    private List<InsuranceCourseType> insuranceCourseTypeList;
 }

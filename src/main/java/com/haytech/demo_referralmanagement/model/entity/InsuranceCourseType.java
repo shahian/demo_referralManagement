@@ -2,7 +2,6 @@ package com.haytech.demo_referralmanagement.model.entity;
 
 
 import com.haytech.demo_referralmanagement.model.base.BaseEntity;
-import com.haytech.demo_referralmanagement.model.enums.ReferrType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,9 +18,9 @@ import java.util.List;
 @NoArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "course")
+@Table(name = "insurance_course_type")
 @Where(clause = "deleted = false")
-public class Course extends BaseEntity {
+public class InsuranceCourseType extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -30,7 +29,8 @@ public class Course extends BaseEntity {
     private String name;
     @Column(name = "code",length = 8)
     private String code;
-    @ManyToMany(mappedBy = "courses")
-    private List<Company> companies;
+    @ManyToOne()
+    @JoinColumn(name = "company_id")
+    private Company company;
 
 }

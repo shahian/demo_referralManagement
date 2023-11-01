@@ -3,7 +3,7 @@ package com.haytech.demo_referralmanagement.serviceTest;
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.dto.CompanyDTO;
 import com.haytech.demo_referralmanagement.model.entity.Company;
-import com.haytech.demo_referralmanagement.model.entity.Course;
+import com.haytech.demo_referralmanagement.model.entity.InsuranceCourseType;
 import com.haytech.demo_referralmanagement.repository.CompanyRepository;
 import com.haytech.demo_referralmanagement.model.mapper.CompanyMapper;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
@@ -93,7 +93,7 @@ public class CompanyServiceImplTest {
     public void testDeleteCompany() {
         Long companyId = 1L;
         Company company = new Company();
-        company.setCourses(Arrays.asList(new Course()));
+        company.setInsuranceCourseTypeList(Arrays.asList(new InsuranceCourseType()));
 
         // Mock behavior of your dependencies
         Mockito.when(companyRepository.findById(companyId)).thenReturn(java.util.Optional.of(company));

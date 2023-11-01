@@ -24,26 +24,27 @@ public class CompanyServiceImpl implements CompanyService {
         this.applicationProperties = applicationProperties;
         this.companyMapper = companyMapper;
     }
-
-
     @Override
-    public BaseDTO createCompany(Company company) {
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(companyRepository.save(company)));
+    public BaseDTO getCompany(Long companyId) {
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(companyRepository.getById(companyId)));
 
     }
-
     @Override
     public BaseDTO getAllCompanies() {
         List<Company> result = companyRepository.findAll();
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_LIST(result));
     }
-
     @Override
+    public BaseDTO createCompany(Company company) {
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(companyRepository.save(company)));
+
+    }    @Override
     public BaseDTO updateCompany(Long companyId, Company updatedCompany) {
         Company existingCompany = companyRepository.findById(companyId)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found"));
         existingCompany.setName(updatedCompany.getName());
         existingCompany.setCode(updatedCompany.getCode());
+        companyRepository.save(existingCompany);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(existingCompany));
 
     }
@@ -52,16 +53,12 @@ public class CompanyServiceImpl implements CompanyService {
     public BaseDTO deleteCompany(Long companyId) {
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found"));
-        if (company.getCourses().stream().count() > 0) {
+        if (company.getInsuranceCourseTypeList().stream().count() > 0) {
             throw new EntityExistsException("company has courses");
         }
         companyRepository.deleteById(companyId);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), company);
     }
 
-    @Override
-    public BaseDTO getCompany(Long companyId) {
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(companyRepository.getById(companyId)));
 
-    }
 }
