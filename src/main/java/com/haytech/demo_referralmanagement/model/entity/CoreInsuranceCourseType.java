@@ -2,7 +2,6 @@ package com.haytech.demo_referralmanagement.model.entity;
 
 
 import com.haytech.demo_referralmanagement.model.base.BaseEntity;
-import com.haytech.demo_referralmanagement.model.enums.ReferrType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,18 +18,19 @@ import java.util.List;
 @NoArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "course")
+@Table(name = "core_insurance_course_type")
 @Where(clause = "deleted = false")
-public class Course extends BaseEntity {
+public class CoreInsuranceCourseType extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-    @Column(name = "name",length = 50)
+    @Column(name = "name", length = 256)
     private String name;
-    @Column(name = "code",length = 8)
-    private String code;
-    @ManyToMany(mappedBy = "courses")
-    private List<Company> companies;
 
+    @Column(name = "coreName")
+    private boolean coreName;
+
+    @OneToMany(mappedBy = "core_insurance_course_type",cascade = CascadeType.ALL)
+    private List<InsuranceCourseType> insuranceCourseTypeList;
 }
