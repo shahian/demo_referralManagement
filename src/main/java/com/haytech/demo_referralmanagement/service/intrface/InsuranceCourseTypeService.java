@@ -4,7 +4,7 @@ import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.entity.InsuranceCourseType;
 
 public interface InsuranceCourseTypeService {
-    BaseDTO createInsuranceCourseType(Long companyId, InsuranceCourseType insuranceCourseType);
+    BaseDTO createInsuranceCourseType(Long companyId,Long coreIctId, InsuranceCourseType insuranceCourseType);
 
 
     BaseDTO getAllInsuranceCoursesType();
@@ -16,4 +16,8 @@ public interface InsuranceCourseTypeService {
     BaseDTO deleteInsuranceCourseType(Long courseId);
 
     BaseDTO getInsuranceCourseType(Long courseId);
+
+    BaseDTO getAllInsuranceCourseTypeByCoreIctId(Long coreIctId);
+
+    BaseDTO getAllInsuranceCoursesTypeByCoreIdAndCompanyId(Long coreIctId, Long companyId);
 }
