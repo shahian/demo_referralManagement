@@ -40,12 +40,14 @@ public class InsuranceCourseTypeServiceImpl implements InsuranceCourseTypeServic
 
     @Override
     public BaseDTO getAllInsuranceCoursesType() {
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), insuranceCourseTypeMapper.DTO_LIST(insuranceCourseTypeRepository.findAll()));
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties),
+                insuranceCourseTypeMapper.DTO_LIST(insuranceCourseTypeRepository.findAll()));
     }
 
     @Override
     public BaseDTO getAllInsuranceCourseTypeByCompanyId(Long companyId) {
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), insuranceCourseTypeMapper.DTO_LIST(insuranceCourseTypeRepository.findAllByCompany_Id(companyId)));
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties),
+                insuranceCourseTypeMapper.DTO_LIST(insuranceCourseTypeRepository.findAllByCompany_Id(companyId)));
     }
 
     @Override
