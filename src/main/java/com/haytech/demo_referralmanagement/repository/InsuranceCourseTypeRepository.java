@@ -9,5 +9,7 @@ import java.util.List;
 public interface InsuranceCourseTypeRepository extends JpaRepository<InsuranceCourseType, Long> {
     InsuranceCourseType getById(Long courseId);
 
-    List<InsuranceCourseType> findAllByCompany_Id(Long courseId);
+    List<InsuranceCourseType> findAllByCompany_Id(Long companyId);
+    List<InsuranceCourseType> findAllByCoreInsuranceCourseType_Id(Long courseId);
+    List<InsuranceCourseType> findAllByCoreInsuranceCourseType_IdAndAndCompany_Id(Long courseId,Long companyId);
 }
