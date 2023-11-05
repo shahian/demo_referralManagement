@@ -1,4 +1,4 @@
-﻿package com.haytech.demo_referralmanagement.service.intrface;
+package com.haytech.demo_referralmanagement.service.intrface;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.entity.CoreInsuranceCourseType;

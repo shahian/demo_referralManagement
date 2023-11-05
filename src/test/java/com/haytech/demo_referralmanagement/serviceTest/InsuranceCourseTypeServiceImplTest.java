@@ -3,9 +3,11 @@ package com.haytech.demo_referralmanagement.serviceTest;
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.dto.InsuranceCourseTypeDTO;
 import com.haytech.demo_referralmanagement.model.entity.Company;
+import com.haytech.demo_referralmanagement.model.entity.CoreInsuranceCourseType;
 import com.haytech.demo_referralmanagement.model.entity.InsuranceCourseType;
 import com.haytech.demo_referralmanagement.model.mapper.InsuranceCourseTypeMapper;
 import com.haytech.demo_referralmanagement.repository.CompanyRepository;
+import com.haytech.demo_referralmanagement.repository.CoreInsuranceCourseTypeRepository;
 import com.haytech.demo_referralmanagement.repository.InsuranceCourseTypeRepository;
 import com.haytech.demo_referralmanagement.service.impl.InsuranceCourseTypeServiceImpl;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
@@ -32,6 +34,8 @@ public class InsuranceCourseTypeServiceImplTest {
     @Mock
     private CompanyRepository companyRepository;
     @Mock
+    private CoreInsuranceCourseTypeRepository coreInsuranceCourseTypeRepository;
+    @Mock
     private ApplicationProperties applicationProperties;
 
     @Mock
@@ -49,17 +53,20 @@ public class InsuranceCourseTypeServiceImplTest {
     public void testCreateCourse() {
         // Arrange
         Long companyId = 1L;
+        Long coreIctId = 1L;
         Company company = new Company(); // Create a Company object for testing
+        CoreInsuranceCourseType coreInsuranceCourseType = new CoreInsuranceCourseType(); // Create a Company object for testing
         InsuranceCourseType insuranceCourseType = new InsuranceCourseType(); // Create an InsuranceCourseType object for testing
         InsuranceCourseTypeDTO insuranceCourseTypeDTO = new InsuranceCourseTypeDTO(); // Create an expected DTO object
 
         // Mock behavior of your dependencies
         when(companyRepository.getById(companyId)).thenReturn(company);
+        when(coreInsuranceCourseTypeRepository.getById(coreIctId)).thenReturn(coreInsuranceCourseType);
         when(insuranceCourseTypeRepository.save(insuranceCourseType)).thenReturn(insuranceCourseType);
         when(insuranceCourseTypeMapper.DTO_Course(insuranceCourseType)).thenReturn(insuranceCourseTypeDTO);
 
         // Act
-        BaseDTO result = courseService.createInsuranceCourseType(companyId, insuranceCourseType);
+        BaseDTO result = courseService.createInsuranceCourseType(companyId,coreIctId, insuranceCourseType);
 
         // Assert
         assertEquals(insuranceCourseTypeDTO, result.getObject());

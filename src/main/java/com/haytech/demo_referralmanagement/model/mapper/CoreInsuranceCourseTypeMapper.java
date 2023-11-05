@@ -1,4 +1,4 @@
-﻿package com.haytech.demo_referralmanagement.model.mapper;
+package com.haytech.demo_referralmanagement.model.mapper;
 
 import com.haytech.demo_referralmanagement.model.dto.CoreInsuranceCourseTypeDTO;
 import com.haytech.demo_referralmanagement.model.entity.CoreInsuranceCourseType;
