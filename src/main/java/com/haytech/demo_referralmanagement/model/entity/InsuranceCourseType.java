@@ -35,5 +35,4 @@ public class InsuranceCourseType extends BaseEntity {
     @ManyToOne()
     @JoinColumn(name = "core_insurance_course_type_id")
     private CoreInsuranceCourseType coreInsuranceCourseType;
-
 }

@@ -31,6 +31,6 @@ public class CoreInsuranceCourseType extends BaseEntity {
     @Column(name = "coreName")
     private boolean coreName;
 
-    @OneToMany(mappedBy = "core_insurance_course_type",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "coreInsuranceCourseType",cascade = CascadeType.ALL)
     private List<InsuranceCourseType> insuranceCourseTypeList;
 }
