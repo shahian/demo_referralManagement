@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 @Data
@@ -16,19 +19,17 @@ import java.util.List;
 public class FanavaranPolicyDTO extends BaseEntityDTO{
 
     private long id;
-    private String name;
-    private long personnelId;
-
-    private long endDate;
-
-    private long startDate;
-
-    private long issueDate;
-
-    private String nationalCode;
-
+    private Long policyId;
     private String insuranceNumber;
-
+    private Long beginDate;
+    private Long endDate;
+    private Long issueDate;
+    private Integer fkInsuranceCourseTypeId;
+    private String gid;
+    private String personnelId;
+    private String completeInsuranceNumber;
+    private Byte agencyName;
+    private String nationalCode;
     private List<AgencyChecking> agencyCheckings;
 
 }

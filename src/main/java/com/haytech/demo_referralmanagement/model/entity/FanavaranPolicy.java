@@ -28,7 +28,7 @@ public class FanavaranPolicy extends BaseEntity {
     private long id;
     //
     @Column(name = "policy_id", nullable = false)
-    private Integer policyId;
+    private Long policyId;
 
     @Column(name = "insurance_number", nullable = false, length = 10)
     private String insuranceNumber;
