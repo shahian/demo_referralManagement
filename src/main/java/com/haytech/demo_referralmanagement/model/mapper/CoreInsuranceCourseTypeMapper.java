@@ -8,6 +8,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CoreInsuranceCourseTypeMapper {
-    CoreInsuranceCourseType DTO_CoreInsuranceCourseType(CoreInsuranceCourseType coreInsuranceCourseType);
+    CoreInsuranceCourseTypeDTO DTO_CoreInsuranceCourseType(CoreInsuranceCourseType coreInsuranceCourseType);
     List<CoreInsuranceCourseTypeDTO> DTO_LIST(List<CoreInsuranceCourseType> coreInsuranceCourseTypes);
 }
