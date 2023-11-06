@@ -1,17 +1,12 @@
 package com.haytech.demo_referralmanagement.utility;
 
 import com.haytech.demo_referralmanagement.model.entity.FanavaranPolicy;
-import com.haytech.demo_referralmanagement.model.entity.ReferralManagement;
-import com.haytech.demo_referralmanagement.model.enums.ReferrType;
-import com.haytech.demo_referralmanagement.repository.AgencyCheckingRepository;
 import com.haytech.demo_referralmanagement.repository.FanavaranPolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
