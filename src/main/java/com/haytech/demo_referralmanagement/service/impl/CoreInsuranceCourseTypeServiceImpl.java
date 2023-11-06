@@ -2,6 +2,7 @@ package com.haytech.demo_referralmanagement.service.impl;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.base.MetaDTO;
+import com.haytech.demo_referralmanagement.model.dto.CoreInsuranceCourseTypeDTO;
 import com.haytech.demo_referralmanagement.model.entity.CoreInsuranceCourseType;
 import com.haytech.demo_referralmanagement.model.mapper.CoreInsuranceCourseTypeMapper;
 import com.haytech.demo_referralmanagement.repository.CoreInsuranceCourseTypeRepository;
@@ -38,7 +39,7 @@ public class CoreInsuranceCourseTypeServiceImpl implements CoreInsuranceCourseTy
     }
 
     @Override
-    public BaseDTO createCoreInsuranceCourseType(CoreInsuranceCourseType coreInsuranceCourseType) {
+    public BaseDTO createCoreInsuranceCourseType(CoreInsuranceCourseTypeDTO coreInsuranceCourseType) {
 
         return new BaseDTO(MetaDTO.getInstance(applicationProperties
         ), coreInsuranceCourseTypeMapper.DTO_CoreInsuranceCourseType(
@@ -47,11 +48,10 @@ public class CoreInsuranceCourseTypeServiceImpl implements CoreInsuranceCourseTy
                         .coreName(coreInsuranceCourseType.isCoreName())
                         .insuranceCourseTypeList(coreInsuranceCourseType.getInsuranceCourseTypeList())
                         .build())));
-
     }
 
     @Override
-    public BaseDTO updateCoreInsuranceCourseType(Long coreInsuranceCourseId, CoreInsuranceCourseType coreInsuranceCourseType) {
+    public BaseDTO updateCoreInsuranceCourseType(Long coreInsuranceCourseId, CoreInsuranceCourseTypeDTO coreInsuranceCourseType) {
         CoreInsuranceCourseType insuranceCourseType =
                 coreInsuranceCourseTypeRepository.findById(coreInsuranceCourseId).orElseThrow(() -> new NotFoundException("not exist"));
         insuranceCourseType.setName(insuranceCourseType.getName());

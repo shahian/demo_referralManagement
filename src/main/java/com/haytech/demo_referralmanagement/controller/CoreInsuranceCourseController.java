@@ -1,6 +1,7 @@
 package com.haytech.demo_referralmanagement.controller;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
+import com.haytech.demo_referralmanagement.model.dto.CoreInsuranceCourseTypeDTO;
 import com.haytech.demo_referralmanagement.model.entity.CoreInsuranceCourseType;
 import com.haytech.demo_referralmanagement.service.intrface.CoreInsuranceCourseTypeService;
 import org.springframework.http.HttpStatus;
@@ -29,12 +30,12 @@ public class CoreInsuranceCourseController {
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
     @PostMapping(value = "/v1/core_insurance_course")
-    public ResponseEntity<?> createCoreInsuranceCourseType(@RequestBody CoreInsuranceCourseType coreInsuranceCourseType){
+    public ResponseEntity<?> createCoreInsuranceCourseType(@RequestBody CoreInsuranceCourseTypeDTO coreInsuranceCourseType){
         BaseDTO baseDTO= coreInsuranceCourseTypeService.createCoreInsuranceCourseType(coreInsuranceCourseType);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
     @PutMapping(value = "/v1/core_insurance_course")
-    public ResponseEntity<?> updateCoreInsuranceCourseType(@RequestParam Long coreInsuranceCourseId, @RequestBody CoreInsuranceCourseType coreInsuranceCourseType){
+    public ResponseEntity<?> updateCoreInsuranceCourseType(@RequestParam Long coreInsuranceCourseId, @RequestBody CoreInsuranceCourseTypeDTO coreInsuranceCourseType){
         BaseDTO baseDTO= coreInsuranceCourseTypeService.updateCoreInsuranceCourseType(coreInsuranceCourseId,coreInsuranceCourseType);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }

@@ -1,6 +1,7 @@
 package com.haytech.demo_referralmanagement.controller;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
+import com.haytech.demo_referralmanagement.model.dto.CompanyDTO;
 import com.haytech.demo_referralmanagement.model.entity.Company;
 import com.haytech.demo_referralmanagement.model.entity.InsuranceCourseType;
 import com.haytech.demo_referralmanagement.service.intrface.CompanyService;
@@ -20,7 +21,7 @@ public class CompanyController {
     }
 
     @PostMapping(value = "/v1/company")
-    public ResponseEntity<?> createCompany(@RequestBody Company company) {
+    public ResponseEntity<?> createCompany(@RequestBody CompanyDTO company) {
         BaseDTO baseDTO = companyService.createCompany(company);
         return new ResponseEntity<>(baseDTO, HttpStatus.CREATED);
     }
@@ -39,7 +40,7 @@ public class CompanyController {
     }
 
     @PutMapping(value = "/v1/company")
-    public ResponseEntity<?> updateCompany(@RequestParam Long companyId, @RequestBody Company company) {
+    public ResponseEntity<?> updateCompany(@RequestParam Long companyId, @RequestBody CompanyDTO company) {
         BaseDTO baseDTO = companyService.updateCompany(companyId, company);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }

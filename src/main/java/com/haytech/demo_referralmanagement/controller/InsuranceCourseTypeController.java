@@ -2,6 +2,7 @@ package com.haytech.demo_referralmanagement.controller;
 
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
+import com.haytech.demo_referralmanagement.model.dto.InsuranceCourseTypeDTO;
 import com.haytech.demo_referralmanagement.model.entity.InsuranceCourseType;
 import com.haytech.demo_referralmanagement.service.intrface.InsuranceCourseTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +47,12 @@ public class InsuranceCourseTypeController {
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
     @PostMapping(value = "/v1/insurance_course_type")
-    public ResponseEntity<?> createInsuranceCourseType(@RequestParam Long companyId,@RequestParam Long coreIctId,@RequestBody InsuranceCourseType insuranceCourseType) {
+    public ResponseEntity<?> createInsuranceCourseType(@RequestParam Long companyId,@RequestParam Long coreIctId,@RequestBody InsuranceCourseTypeDTO insuranceCourseType) {
         BaseDTO baseDTO =  insuranceCourseTypeService.createInsuranceCourseType(companyId,coreIctId,insuranceCourseType);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
     @PutMapping(value = "/v1/insurance_course_type/{courseId}")
-    public  ResponseEntity<?> updateInsuranceCourseType(@PathVariable Long courseId, @RequestBody InsuranceCourseType insuranceCourseType) {
+    public  ResponseEntity<?> updateInsuranceCourseType(@PathVariable Long courseId, @RequestBody InsuranceCourseTypeDTO insuranceCourseType) {
         BaseDTO baseDTO = insuranceCourseTypeService.updateInsuranceCourseType(courseId, insuranceCourseType);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }

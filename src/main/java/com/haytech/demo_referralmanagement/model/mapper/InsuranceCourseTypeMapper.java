@@ -11,4 +11,5 @@ public interface InsuranceCourseTypeMapper {
     List<InsuranceCourseTypeDTO> DTO_LIST(List<InsuranceCourseType> insuranceCourseTypeList);
 
     InsuranceCourseTypeDTO DTO_Course(InsuranceCourseType insuranceCourseType);
+    InsuranceCourseType Course_DTO(InsuranceCourseTypeDTO insuranceCourseTypeDTO);
 }
