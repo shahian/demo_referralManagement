@@ -2,6 +2,7 @@ package com.haytech.demo_referralmanagement.service.impl;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.base.MetaDTO;
+import com.haytech.demo_referralmanagement.model.dto.InsuranceCourseTypeDTO;
 import com.haytech.demo_referralmanagement.model.entity.Company;
 import com.haytech.demo_referralmanagement.model.entity.CoreInsuranceCourseType;
 import com.haytech.demo_referralmanagement.model.entity.InsuranceCourseType;
@@ -64,17 +65,18 @@ public class InsuranceCourseTypeServiceImpl implements InsuranceCourseTypeServic
     }
 
     @Override
-    public BaseDTO createInsuranceCourseType(Long companyId, Long coreIctId, InsuranceCourseType insuranceCourseType) {
+    public BaseDTO createInsuranceCourseType(Long companyId, Long coreIctId, InsuranceCourseTypeDTO insuranceCourseType) {
         Company company = companyRepository.findById(companyId).orElseThrow(() -> new EntityNotFoundException("Not Exist..."));
         CoreInsuranceCourseType coreInsuranceCourseType = coreInsuranceCourseTypeRepository.findById(coreIctId).orElseThrow(() -> new EntityNotFoundException("Not Exist..."));
         insuranceCourseType.setCompany(company);
         insuranceCourseType.setCoreInsuranceCourseType(coreInsuranceCourseType);
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), insuranceCourseTypeMapper.DTO_Course(insuranceCourseTypeRepository.save(insuranceCourseType)));
+        InsuranceCourseType newInsuranceCourseType =insuranceCourseTypeRepository.save(insuranceCourseTypeMapper.Course_DTO(insuranceCourseType));
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), insuranceCourseTypeMapper.DTO_Course(newInsuranceCourseType));
 
     }
 
     @Override
-    public BaseDTO updateInsuranceCourseType(Long courseId, InsuranceCourseType updatedInsuranceCourseType) {
+    public BaseDTO updateInsuranceCourseType(Long courseId, InsuranceCourseTypeDTO updatedInsuranceCourseType) {
         InsuranceCourseType existingInsuranceCourseType = insuranceCourseTypeRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("InsuranceCourseType not found"));
         existingInsuranceCourseType.setCode(updatedInsuranceCourseType.getCode());

@@ -2,6 +2,7 @@ package com.haytech.demo_referralmanagement.service.impl;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.base.MetaDTO;
+import com.haytech.demo_referralmanagement.model.dto.CompanyDTO;
 import com.haytech.demo_referralmanagement.model.entity.Company;
 import com.haytech.demo_referralmanagement.model.mapper.CompanyMapper;
 import com.haytech.demo_referralmanagement.repository.CompanyRepository;
@@ -26,7 +27,9 @@ public class CompanyServiceImpl implements CompanyService {
     }
     @Override
     public BaseDTO getCompany(Long companyId) {
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(companyRepository.getById(companyId)));
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties),
+                companyMapper.DTO_Company(
+                        companyRepository.findById(companyId).orElseThrow(() -> new EntityNotFoundException("company Not Found..."))));
 
     }
     @Override
@@ -35,11 +38,12 @@ public class CompanyServiceImpl implements CompanyService {
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_LIST(result));
     }
     @Override
-    public BaseDTO createCompany(Company company) {
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(companyRepository.save(company)));
+    public BaseDTO createCompany(CompanyDTO company) {
+        Company newCompany = companyRepository.save(companyMapper.Company_DTO(company));
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(newCompany));
 
     }    @Override
-    public BaseDTO updateCompany(Long companyId, Company updatedCompany) {
+    public BaseDTO updateCompany(Long companyId, CompanyDTO updatedCompany) {
         Company existingCompany = companyRepository.findById(companyId)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found"));
         existingCompany.setName(updatedCompany.getName());

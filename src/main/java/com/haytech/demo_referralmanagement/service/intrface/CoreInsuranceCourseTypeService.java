@@ -1,6 +1,7 @@
 package com.haytech.demo_referralmanagement.service.intrface;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
+import com.haytech.demo_referralmanagement.model.dto.CoreInsuranceCourseTypeDTO;
 import com.haytech.demo_referralmanagement.model.entity.CoreInsuranceCourseType;
 
 public interface CoreInsuranceCourseTypeService {
@@ -8,9 +9,9 @@ public interface CoreInsuranceCourseTypeService {
 
     BaseDTO findAll();
 
-    BaseDTO createCoreInsuranceCourseType(CoreInsuranceCourseType coreInsuranceCourseType);
+    BaseDTO createCoreInsuranceCourseType(CoreInsuranceCourseTypeDTO coreInsuranceCourseType);
 
-    BaseDTO updateCoreInsuranceCourseType(Long coreInsuranceCourseId, CoreInsuranceCourseType coreInsuranceCourseType);
+    BaseDTO updateCoreInsuranceCourseType(Long coreInsuranceCourseId, CoreInsuranceCourseTypeDTO coreInsuranceCourseType);
 
     BaseDTO deleteCoreInsuranceCourseType(Long coreInsuranceCourseId);
 }

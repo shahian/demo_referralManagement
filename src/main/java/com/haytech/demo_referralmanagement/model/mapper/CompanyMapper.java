@@ -11,4 +11,5 @@ public interface CompanyMapper {
     List<CompanyDTO> DTO_LIST(List<Company> companyList);
 
     CompanyDTO DTO_Company(Company company);
+    Company  Company_DTO(CompanyDTO companyDTO);
 }
