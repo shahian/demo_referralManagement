@@ -1,6 +1,6 @@
 package com.haytech.demo_referralmanagement;
 
-import com.haytech.demo_referralmanagement.repository.ReferralManagementRepository;
+import com.haytech.demo_referralmanagement.repository.AgencyCheckingRepository;
 import com.haytech.demo_referralmanagement.utility.MyApplicationRunner;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +15,7 @@ public class DemoReferralManagementApplication {
         SpringApplication.run(DemoReferralManagementApplication.class, args);
     }
     @Bean
-    public ApplicationRunner applicationRunner(ReferralManagementRepository repository) {
+    public ApplicationRunner applicationRunner(AgencyCheckingRepository repository) {
         return new MyApplicationRunner(repository);
     }
 }

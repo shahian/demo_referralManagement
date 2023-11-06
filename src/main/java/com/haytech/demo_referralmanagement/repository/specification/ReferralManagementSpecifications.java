@@ -1,5 +1,6 @@
 package com.haytech.demo_referralmanagement.repository.specification;
 
+import com.haytech.demo_referralmanagement.model.entity.AgencyChecking;
 import com.haytech.demo_referralmanagement.model.entity.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,9 +14,9 @@ import javax.persistence.criteria.Root;
 import com.haytech.demo_referralmanagement.model.entity.ReferralManagement;
 
 public class ReferralManagementSpecifications {
-    public static Specification<ReferralManagement> findByCriteria(
-            Long personnelId, String insuranceNumber, String nationalCode, Boolean processed, ReferrType referrType) {
-        return (Root<ReferralManagement> root, CriteriaQuery<?> query, CriteriaBuilder builder) -> {
+    public static Specification<AgencyChecking> findByCriteria(
+            Long personnelId, String insuranceNumber, String nationalCode, Boolean isDone, String checkingTypeName) {
+        return (Root<AgencyChecking> root, CriteriaQuery<?> query, CriteriaBuilder builder) -> {
             Predicate predicate = builder.conjunction();
 
             if (personnelId != null) {
@@ -27,11 +28,11 @@ public class ReferralManagementSpecifications {
             if (nationalCode != null) {
                 predicate = builder.and(predicate, builder.equal(root.get("nationalCode"), nationalCode));
             }
-            if (processed != null) {
-                predicate = builder.and(predicate, builder.equal(root.get("processed"), processed));
+            if (isDone != null) {
+                predicate = builder.and(predicate, builder.equal(root.get("isDone"), isDone));
             }
-            if (referrType != null) {
-                predicate = builder.and(predicate, builder.equal(root.get("referrType"), referrType));
+            if (checkingTypeName != null) {
+                predicate = builder.and(predicate, builder.equal(root.get("checkingTypeName"), checkingTypeName));
             }
 
             return predicate;
