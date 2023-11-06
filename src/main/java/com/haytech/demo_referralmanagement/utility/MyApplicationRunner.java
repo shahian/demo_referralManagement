@@ -36,7 +36,7 @@ public class MyApplicationRunner implements ApplicationRunner {
 
         for (int i = 1; i <= 50; i++) {
             FanavaranPolicy fanavaranPolicy = FanavaranPolicy.builder()
-                    .policyId(123)
+                    .policyId(123L+i)
                     .insuranceNumber("ABC123" +i)
                     .beginDate(System.currentTimeMillis())
                     .endDate(System.currentTimeMillis())
