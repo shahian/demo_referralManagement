@@ -1,8 +1,8 @@
 package com.haytech.demo_referralmanagement.repository;
 
+import com.haytech.demo_referralmanagement.model.entity.AgencyChecking;
 import com.haytech.demo_referralmanagement.model.entity.ReferralManagement;
 import com.haytech.demo_referralmanagement.model.enums.ReferrType;
-import com.haytech.demo_referralmanagement.repository.base.BaseJpaRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -15,18 +15,18 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 @Repository
-public interface ReferralManagementRepository extends JpaRepository<ReferralManagement,Long> ,JpaSpecificationExecutor<ReferralManagement>{
+public interface AgencyCheckingRepository extends JpaRepository<AgencyChecking,Long> ,JpaSpecificationExecutor<AgencyChecking>{
 
-    @Query("SELECT rm FROM ReferralManagement rm " +
-            "WHERE (:personnelId IS NULL OR rm.personnelId = :personnelId) " +
-            "AND (:insuranceNumber IS NULL OR rm.insuranceNumber = :insuranceNumber) " +
-            "AND (:nationalCode IS NULL OR rm.nationalCode = :nationalCode) " +
-            "AND (:processed IS NULL OR rm.processed = :processed) " +
-            "AND (:referrType IS NULL OR rm.referrType = :referrType)")
-    List<ReferralManagement> findByQuery(
-            Long personnelId, String insuranceNumber, String nationalCode, Boolean processed, ReferrType referrType);
+    @Query("SELECT ac FROM AgencyChecking ac " +
+            "WHERE (:personnelId IS NULL OR ac.fanavaranPolicy.personnelId = :personnelId) " +
+            "AND (:insuranceNumber IS NULL OR ac.fanavaranPolicy.insuranceNumber = :insuranceNumber) " +
+            "AND (:nationalCode IS NULL OR ac.fanavaranPolicy.nationalCode = :nationalCode) " +
+            "AND (:isDone IS NULL OR ac.isDone = :isDone) " +
+            "AND (:checkingTypeName IS NULL OR ac.checkingType.name = :checkingTypeName)")
+    List<AgencyChecking> findByQuery(
+            Long personnelId, String insuranceNumber, String nationalCode, Boolean isDone, String checkingTypeName);
 
-  default List<ReferralManagement> findByFilter(
+  default List<AgencyChecking> findByFilter(
             Long personnelId, String insuranceNumber, String nationalCode, Boolean processed, ReferrType referrType) {
         return findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -39,12 +39,12 @@ public interface ReferralManagementRepository extends JpaRepository<ReferralMana
         });
     }
 
-    default void likeFilter(Root<ReferralManagement> root, List<Predicate> predicates, CriteriaBuilder criteriaBuilder, String input, String fieldName) {
+    default void likeFilter(Root<AgencyChecking> root, List<Predicate> predicates, CriteriaBuilder criteriaBuilder, String input, String fieldName) {
         if (!StringUtils.isEmpty(input))
             predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get(fieldName)), "%" + input.toLowerCase() + "%"));
 
     }
 
-    @Query("SELECT rm FROM ReferralManagement rm")
-    List<ReferralManagement> findAllByCriteria();
+    @Query("SELECT rm FROM AgencyChecking rm")
+    List<AgencyChecking> findAllByCriteria();
 }

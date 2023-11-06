@@ -25,12 +25,10 @@ public class AgencyChecking extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-    @Column(name = "name", length = 50)
-    private String name;
-
-    @Column(name = "code", length = 8)
-    private String code;
-
+    @Column(name = "is_done")
+    private boolean isDone;
+    @Column(name = "is_unwilling")
+    private boolean isUnwilling;
     @ManyToOne()
     @JoinColumn(name = "fanavaran_policy_Id")
     private FanavaranPolicy fanavaranPolicy;
