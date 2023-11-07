@@ -8,8 +8,8 @@ import com.haytech.demo_referralmanagement.model.request.AgencyCheckingRequest;
 public interface AgencyCheckingService {
     BaseDTO getAll();
 
-    BaseDTO filterAgencyCheckingQuery(Long personnelId, String insuranceNumber, String nationalCode, boolean isDone, String checkingTypeName);
-    BaseDTO filterAgencyCheckingCriteria(Long personnelId, String insuranceNumber, String nationalCode, boolean isDone, String checkingTypeName);
+    BaseDTO filterAgencyCheckingQuery(String personnelId, String insuranceNumber, String nationalCode, boolean isDone, Long checkingTypeId);
+    BaseDTO filterAgencyCheckingCriteria(String personnelId, String insuranceNumber, String nationalCode, boolean isDone, Long checkingTypeId);
 
     BaseDTO getAgencyCheckingById(Long agencyCheckingId);
 

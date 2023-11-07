@@ -10,7 +10,7 @@ import com.haytech.demo_referralmanagement.repository.AgencyCheckingRepository;
 import com.haytech.demo_referralmanagement.repository.AgencyRepository;
 import com.haytech.demo_referralmanagement.repository.CheckingTypeRepository;
 import com.haytech.demo_referralmanagement.repository.FanavaranPolicyRepository;
-import com.haytech.demo_referralmanagement.repository.specification.ReferralManagementSpecifications;
+import com.haytech.demo_referralmanagement.repository.specification.AgencyCheckingSpecifications;
 import com.haytech.demo_referralmanagement.service.intrface.AgencyCheckingService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
 import org.springframework.data.jpa.domain.Specification;
@@ -45,36 +45,36 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
     }
 
     public BaseDTO filterAgencyCheckingQuery(
-            Long personnelId,
+            String personnelId,
             String insuranceNumber,
             String nationalCode,
             boolean isDone,
-            String checkingTypeName) {
-        List<AgencyChecking> filteredData = filterData(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeName);
+            Long checkingTypeId) {
+        List<AgencyChecking> filteredData = filterData(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
         List<AgencyCheckingDTO> result = agencyCheckingMapper.DTO_LIST(filteredData);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), result);
 
     }
 
     public BaseDTO filterAgencyCheckingCriteria(
-            Long personnelId,
+            String personnelId,
             String insuranceNumber,
             String nationalCode,
             boolean isDone,
-            String checkingTypeName) {
+            Long checkingTypeId) {
 
-        Specification<AgencyChecking> spec = ReferralManagementSpecifications.findByCriteria(
-                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeName);
+        Specification<AgencyChecking> spec = AgencyCheckingSpecifications.findByCriteria(
+                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingMapper.DTO_LIST(agencyCheckingRepository.findAll(spec)));
     }
 
     private List<AgencyChecking> filterData(
-            Long personnelId,
+            String personnelId,
             String insuranceNumber,
             String nationalCode,
             boolean isDone,
-            String checkingTypeName) {
-        return agencyCheckingRepository.findByQuery(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeName);
+            Long checkingTypeId) {
+        return agencyCheckingRepository.findByQuery(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
     }
     @Override
     public BaseDTO getAgencyCheckingById(Long agencyCheckingId) {

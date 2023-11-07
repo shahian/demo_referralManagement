@@ -17,15 +17,26 @@ import java.util.List;
 @Repository
 public interface AgencyCheckingRepository extends JpaRepository<AgencyChecking,Long> ,JpaSpecificationExecutor<AgencyChecking>{
 
+
+
+    @Query("SELECT ac FROM AgencyChecking ac,FanavaranPolicy fp,CheckingType ct " +
+            "where ac.fanavaranPolicy.id=fp.id " +
+            "and ac.checkingType.id =ct.id " +
+            "and (:personnelId IS NULL OR fp.personnelId = :personnelId) " +
+            "AND (:insuranceNumber IS NULL OR fp.insuranceNumber = :insuranceNumber) " +
+            "AND (:nationalCode IS NULL OR fp.nationalCode = :nationalCode) " +
+            "AND (:isDone IS NULL OR ac.isDone = :isDone) " +
+            "AND (:checkingTypeId IS NULL OR ct.id = :checkingTypeId)")
+    List<AgencyChecking> findByQuery(
+            String personnelId, String insuranceNumber, String nationalCode, Boolean isDone, Long checkingTypeId);
     @Query("SELECT ac FROM AgencyChecking ac " +
             "WHERE (:personnelId IS NULL OR ac.fanavaranPolicy.personnelId = :personnelId) " +
             "AND (:insuranceNumber IS NULL OR ac.fanavaranPolicy.insuranceNumber = :insuranceNumber) " +
             "AND (:nationalCode IS NULL OR ac.fanavaranPolicy.nationalCode = :nationalCode) " +
             "AND (:isDone IS NULL OR ac.isDone = :isDone) " +
-            "AND (:checkingTypeName IS NULL OR ac.checkingType.name = :checkingTypeName)")
-    List<AgencyChecking> findByQuery(
-            Long personnelId, String insuranceNumber, String nationalCode, Boolean isDone, String checkingTypeName);
-
+            "AND (:checkingTypeId IS NULL OR ac.checkingType.id = :checkingTypeId)")
+    List<AgencyChecking> findByQuery1(
+            String personnelId, String insuranceNumber, String nationalCode, Boolean isDone, Long checkingTypeId);
   default List<AgencyChecking> findByFilter(
             Long personnelId, String insuranceNumber, String nationalCode, Boolean processed, ReferrType referrType) {
         return findAll((root, query, criteriaBuilder) -> {

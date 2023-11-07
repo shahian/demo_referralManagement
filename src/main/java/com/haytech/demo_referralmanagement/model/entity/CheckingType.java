@@ -1,11 +1,10 @@
 package com.haytech.demo_referralmanagement.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.haytech.demo_referralmanagement.model.base.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Where;
 
@@ -28,6 +27,7 @@ public class CheckingType extends BaseEntity {
     @Column(name = "name", length = 30)
     private String name;
     @OneToMany(mappedBy = "checkingType", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<AgencyChecking> agencyCheckingList;
 
 

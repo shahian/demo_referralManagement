@@ -20,11 +20,9 @@ import java.util.List;
 
 @Service
 public class CheckingTypeServiceImpl implements CheckingTypeService {
-
     private final CheckingTypeRepository checkingTypeRepository;
     private final ApplicationProperties applicationProperties;
     private final CheckingTypeMapper checkingTypeMapper;
-
     public CheckingTypeServiceImpl(CheckingTypeRepository checkingTypeRepository, ApplicationProperties applicationProperties, CheckingTypeMapper checkingTypeMapper) {
         this.checkingTypeRepository = checkingTypeRepository;
         this.applicationProperties = applicationProperties;

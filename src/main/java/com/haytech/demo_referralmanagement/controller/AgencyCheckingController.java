@@ -29,26 +29,26 @@ public class AgencyCheckingController {
 
     @GetMapping(value = "/v1/agency_checking_filter_query")
     public ResponseEntity<?> searchAgencyCheckingQuery(
-            @RequestParam(value = "personnelId", required = false) Long personnelId,
+            @RequestParam(value = "personnelId", required = false) String personnelId,
             @RequestParam(value = "insuranceNumber", required = false) String insuranceNumber,
             @RequestParam(value = "nationalCode", required = false) String nationalCode,
             @RequestParam(value = "isDone", required = false, defaultValue = "true") boolean isDone,
-            @RequestParam(value = "checkingTypeName", required = false) String checkingTypeName) {
+            @RequestParam(value = "checkingTypeId", required = false) Long checkingTypeId) {
 
         BaseDTO baseDTO = agencyCheckingService.filterAgencyCheckingQuery(
-                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeName);
+                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
     @GetMapping(value = "/v1/agency_checking_filter_criteria")
     public ResponseEntity<?> searchAgencyCheckingCriteria(
-            @RequestParam(value = "personnelId", required = false) Long personnelId,
+            @RequestParam(value = "personnelId", required = false) String personnelId,
             @RequestParam(value = "insuranceNumber", required = false) String insuranceNumber,
             @RequestParam(value = "nationalCode", required = false) String nationalCode,
             @RequestParam(value = "isDone", required = false, defaultValue = "true") boolean isDone,
-            @RequestParam(value = "checkingTypeName", required = false) String checkingTypeName) {
+            @RequestParam(value = "checkingTypeId", required = false) Long checkingTypeId) {
 
         BaseDTO baseDTO = agencyCheckingService.filterAgencyCheckingCriteria(
-                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeName);
+                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
 
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
