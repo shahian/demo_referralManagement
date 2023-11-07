@@ -51,7 +51,7 @@ public class CompanyServiceImplTest {
         Mockito.when(companyMapper.DTO_Company(newCompany)).thenReturn(companyDTO);
 
         // Call the method you want to test
-        BaseDTO result = companyService.createCompany(newCompany);
+        BaseDTO result = companyService.createCompany(companyDTO);
 
         // Verify the result
         assertEquals(companyDTO, result.getObject());
@@ -84,7 +84,7 @@ public class CompanyServiceImplTest {
         Mockito.when(companyMapper.DTO_Company(existingCompany)).thenReturn(companyDTO);
 
         // Call the method you want to test
-        BaseDTO result = companyService.updateCompany(companyId, updatedCompany);
+        BaseDTO result = companyService.updateCompany(companyId, companyDTO);
 
         // Verify the result
         assertEquals(companyDTO, result.getObject());
