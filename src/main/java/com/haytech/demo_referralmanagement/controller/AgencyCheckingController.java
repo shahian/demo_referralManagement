@@ -5,6 +5,7 @@ import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.base.MetaDTO;
 import com.haytech.demo_referralmanagement.model.dto.AgencyCheckingDTO;
 import com.haytech.demo_referralmanagement.model.enums.ReferrType;
+import com.haytech.demo_referralmanagement.model.request.AgencyCheckingRequest;
 import com.haytech.demo_referralmanagement.service.intrface.AgencyCheckingService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +60,8 @@ public class AgencyCheckingController {
     }
 
     @PostMapping(value = "/v1/agency_checking")
-    public ResponseEntity<?> createAgencyChecking(@RequestBody AgencyCheckingDTO agencyCheckingDTO) {
-        BaseDTO baseDTO  = agencyCheckingService.createAgencyChecking(agencyCheckingDTO);
+    public ResponseEntity<?> createAgencyChecking(@RequestBody AgencyCheckingRequest agencyCheckingRequest) {
+        BaseDTO baseDTO  = agencyCheckingService.createAgencyChecking(agencyCheckingRequest);
         return new ResponseEntity<>(baseDTO, HttpStatus.CREATED);
     }
 

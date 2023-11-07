@@ -3,11 +3,13 @@ package com.haytech.demo_referralmanagement.service.impl;
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.base.MetaDTO;
 import com.haytech.demo_referralmanagement.model.dto.AgencyCheckingDTO;
-import com.haytech.demo_referralmanagement.model.entity.AgencyChecking;
-import com.haytech.demo_referralmanagement.model.entity.ReferralManagement;
-import com.haytech.demo_referralmanagement.model.enums.ReferrType;
+import com.haytech.demo_referralmanagement.model.entity.*;
 import com.haytech.demo_referralmanagement.model.mapper.AgencyCheckingMapper;
+import com.haytech.demo_referralmanagement.model.request.AgencyCheckingRequest;
 import com.haytech.demo_referralmanagement.repository.AgencyCheckingRepository;
+import com.haytech.demo_referralmanagement.repository.AgencyRepository;
+import com.haytech.demo_referralmanagement.repository.CheckingTypeRepository;
+import com.haytech.demo_referralmanagement.repository.FanavaranPolicyRepository;
 import com.haytech.demo_referralmanagement.repository.specification.ReferralManagementSpecifications;
 import com.haytech.demo_referralmanagement.service.intrface.AgencyCheckingService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
@@ -21,12 +23,18 @@ import java.util.List;
 public class AgencyCheckingServiceImpl implements AgencyCheckingService {
     private final ApplicationProperties applicationProperties;
     private final AgencyCheckingRepository agencyCheckingRepository;
+    private final FanavaranPolicyRepository fanavaranPolicyRepository;
+    private final AgencyRepository agencyRepository;
+    private final CheckingTypeRepository checkingTypeRepository;
 
     private final AgencyCheckingMapper agencyCheckingMapper;
 
-    public AgencyCheckingServiceImpl(ApplicationProperties applicationProperties, AgencyCheckingRepository agencyCheckingRepository, AgencyCheckingMapper agencyCheckingMapper) {
+    public AgencyCheckingServiceImpl(ApplicationProperties applicationProperties, AgencyCheckingRepository agencyCheckingRepository, FanavaranPolicyRepository fanavaranPolicyRepository, AgencyRepository agencyRepository, CheckingTypeRepository checkingTypeRepository, AgencyCheckingMapper agencyCheckingMapper) {
         this.applicationProperties = applicationProperties;
         this.agencyCheckingRepository = agencyCheckingRepository;
+        this.fanavaranPolicyRepository = fanavaranPolicyRepository;
+        this.agencyRepository = agencyRepository;
+        this.checkingTypeRepository = checkingTypeRepository;
         this.agencyCheckingMapper = agencyCheckingMapper;
     }
 
@@ -68,6 +76,7 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
             String checkingTypeName) {
         return agencyCheckingRepository.findByQuery(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeName);
     }
+
     @Override
     public BaseDTO getAgencyCheckingById(Long agencyCheckingId) {
         return new BaseDTO(MetaDTO.getInstance(applicationProperties),
@@ -76,10 +85,22 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
     }
 
     @Override
-    public BaseDTO createAgencyChecking(AgencyCheckingDTO agencyCheckingDTO) {
-        AgencyChecking agencyChecking = agencyCheckingMapper.AgencyChecking_DTO(agencyCheckingDTO);
-        agencyChecking = agencyCheckingRepository.save(agencyChecking);
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingMapper.DTO_AgencyChecking(agencyChecking));
+    public BaseDTO createAgencyChecking(AgencyCheckingRequest agencyCheckingRequest) {
+        Agency agency = agencyRepository.findById(agencyCheckingRequest.getAgencyId())
+                .orElseThrow(() -> new EntityNotFoundException("Agency not found"));
+        CheckingType checkingType = checkingTypeRepository.findById(agencyCheckingRequest.getCheckingTypeId())
+                .orElseThrow(() -> new EntityNotFoundException("Checking Type not found"));
+        FanavaranPolicy fanavaranPolicy = fanavaranPolicyRepository.findById(agencyCheckingRequest.getFanavaranPolicyId())
+                .orElseThrow(() -> new EntityNotFoundException("FanavaranPolicy not found"));
+        AgencyChecking newAgencyChecking = AgencyChecking.builder()
+                .fanavaranPolicy(fanavaranPolicy)
+                .checkingType(checkingType)
+                .agency(agency)
+                .isDone(agencyCheckingRequest.isDone())
+                .isUnwilling(agencyCheckingRequest.isUnwilling())
+                .build();
+        AgencyChecking savedAgencyChecking = agencyCheckingRepository.save(newAgencyChecking);
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingMapper.DTO_AgencyChecking(savedAgencyChecking));
     }
 
     @Override

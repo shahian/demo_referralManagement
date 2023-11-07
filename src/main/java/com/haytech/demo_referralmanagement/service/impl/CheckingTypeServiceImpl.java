@@ -39,7 +39,9 @@ public class CheckingTypeServiceImpl implements CheckingTypeService {
 
     @Override
     public BaseDTO getCheckingTypeById(Long id) {
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), checkingTypeMapper.DTO_CheckingType(checkingTypeRepository.getById(id)));
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties),
+                checkingTypeMapper.DTO_CheckingType(checkingTypeRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("CheckingType Not Found..."))));
     }
 
     @Override
