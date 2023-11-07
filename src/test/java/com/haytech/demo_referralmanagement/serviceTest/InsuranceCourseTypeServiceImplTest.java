@@ -66,7 +66,7 @@ public class InsuranceCourseTypeServiceImplTest {
         when(insuranceCourseTypeMapper.DTO_Course(insuranceCourseType)).thenReturn(insuranceCourseTypeDTO);
 
         // Act
-        BaseDTO result = courseService.createInsuranceCourseType(companyId,coreIctId, insuranceCourseType);
+        BaseDTO result = courseService.createInsuranceCourseType(companyId,coreIctId, insuranceCourseTypeDTO);
 
         // Assert
         assertEquals(insuranceCourseTypeDTO, result.getObject());
@@ -107,7 +107,7 @@ public class InsuranceCourseTypeServiceImplTest {
         when(insuranceCourseTypeMapper.DTO_Course(savedInsuranceCourseType)).thenReturn(insuranceCourseTypeDTO);
 
         // Act
-        BaseDTO result = courseService.updateInsuranceCourseType(courseId, updatedInsuranceCourseType);
+        BaseDTO result = courseService.updateInsuranceCourseType(courseId, insuranceCourseTypeDTO);
 
         // Assert
         assertEquals(insuranceCourseTypeDTO, result.getObject());

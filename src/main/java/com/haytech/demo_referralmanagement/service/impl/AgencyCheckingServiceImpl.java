@@ -14,6 +14,7 @@ import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -67,6 +68,37 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
             String checkingTypeName) {
         return agencyCheckingRepository.findByQuery(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeName);
     }
+    @Override
+    public BaseDTO getAgencyCheckingById(Long agencyCheckingId) {
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties),
+                agencyCheckingMapper.DTO_AgencyChecking(
+                        agencyCheckingRepository.findById(agencyCheckingId).orElseThrow(() -> new EntityNotFoundException("AgencyChecking Not Fund"))));
+    }
 
+    @Override
+    public BaseDTO createAgencyChecking(AgencyCheckingDTO agencyCheckingDTO) {
+        AgencyChecking agencyChecking = agencyCheckingMapper.AgencyChecking_DTO(agencyCheckingDTO);
+        agencyChecking = agencyCheckingRepository.save(agencyChecking);
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingMapper.DTO_AgencyChecking(agencyChecking));
+    }
+
+    @Override
+    public BaseDTO updateAgencyChecking(Long agencyCheckingId, AgencyCheckingDTO updatedAgencyChecking) {
+        AgencyChecking existingAgencyChecking = agencyCheckingRepository.findById(agencyCheckingId)
+                .orElseThrow(() -> new EntityNotFoundException("AgencyChecking not found"));
+        existingAgencyChecking.setDone(updatedAgencyChecking.isDone());
+        existingAgencyChecking.setUnwilling(updatedAgencyChecking.isUnwilling());
+        agencyCheckingRepository.save(existingAgencyChecking);
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingMapper.DTO_AgencyChecking(existingAgencyChecking));
+    }
+
+    @Override
+    public BaseDTO deleteAgencyChecking(Long agencyCheckingId) {
+        AgencyChecking agencyChecking = agencyCheckingRepository.findById(agencyCheckingId)
+                .orElseThrow(() -> new EntityNotFoundException("AgencyChecking not found"));
+        agencyChecking.setDeleted(true);
+        agencyCheckingRepository.save(agencyChecking);
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyChecking);
+    }
 }
 

@@ -100,7 +100,7 @@ public class CoreInsuranceCourseTypeServiceImplTest {
         Mockito.when(coreInsuranceCourseTypeRepository.save(coreInsuranceCourseType)).thenReturn(coreInsuranceCourseType);
         Mockito.when(coreInsuranceCourseTypeMapper.DTO_CoreInsuranceCourseType(coreInsuranceCourseType)).thenReturn(expectedBaseDTO);
         // Call the service method
-        BaseDTO result = coreInsuranceCourseTypeService.createCoreInsuranceCourseType(coreInsuranceCourseType);
+        BaseDTO result = coreInsuranceCourseTypeService.createCoreInsuranceCourseType(expectedBaseDTO);
         // Verify the result
         //assertNotNull(result.getObject());
         assertEquals(expectedBaseDTO, result.getObject());
@@ -120,7 +120,7 @@ public class CoreInsuranceCourseTypeServiceImplTest {
         when(coreInsuranceCourseTypeMapper.DTO_CoreInsuranceCourseType(coreInsuranceCourseType)).thenReturn(expectedBaseDTO);
 
         // Call the service method
-        BaseDTO result = coreInsuranceCourseTypeService.updateCoreInsuranceCourseType(1L, coreInsuranceCourseType);
+        BaseDTO result = coreInsuranceCourseTypeService.updateCoreInsuranceCourseType(1L, expectedBaseDTO);
 
         // Verify the result
         assertNotNull(result);
@@ -133,7 +133,7 @@ public class CoreInsuranceCourseTypeServiceImplTest {
         when(coreInsuranceCourseTypeRepository.findById(1L)).thenReturn(java.util.Optional.empty());
 
         // Call the service method and expect an exception
-        assertThrows(NotFoundException.class, () -> coreInsuranceCourseTypeService.updateCoreInsuranceCourseType(1L, new CoreInsuranceCourseType()));
+        assertThrows(NotFoundException.class, () -> coreInsuranceCourseTypeService.updateCoreInsuranceCourseType(1L, new CoreInsuranceCourseTypeDTO()));
     }
 
     @Test
