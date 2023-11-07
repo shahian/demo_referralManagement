@@ -76,14 +76,12 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
             String checkingTypeName) {
         return agencyCheckingRepository.findByQuery(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeName);
     }
-
     @Override
     public BaseDTO getAgencyCheckingById(Long agencyCheckingId) {
         return new BaseDTO(MetaDTO.getInstance(applicationProperties),
                 agencyCheckingMapper.DTO_AgencyChecking(
                         agencyCheckingRepository.findById(agencyCheckingId).orElseThrow(() -> new EntityNotFoundException("AgencyChecking Not Fund"))));
     }
-
     @Override
     public BaseDTO createAgencyChecking(AgencyCheckingRequest agencyCheckingRequest) {
         Agency agency = agencyRepository.findById(agencyCheckingRequest.getAgencyId())
@@ -102,7 +100,6 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
         AgencyChecking savedAgencyChecking = agencyCheckingRepository.save(newAgencyChecking);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingMapper.DTO_AgencyChecking(savedAgencyChecking));
     }
-
     @Override
     public BaseDTO updateAgencyChecking(Long agencyCheckingId, AgencyCheckingDTO updatedAgencyChecking) {
         AgencyChecking existingAgencyChecking = agencyCheckingRepository.findById(agencyCheckingId)
@@ -112,7 +109,6 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
         agencyCheckingRepository.save(existingAgencyChecking);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingMapper.DTO_AgencyChecking(existingAgencyChecking));
     }
-
     @Override
     public BaseDTO deleteAgencyChecking(Long agencyCheckingId) {
         AgencyChecking agencyChecking = agencyCheckingRepository.findById(agencyCheckingId)

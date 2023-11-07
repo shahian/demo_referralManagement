@@ -30,26 +30,22 @@ public class CheckingTypeServiceImpl implements CheckingTypeService {
         this.applicationProperties = applicationProperties;
         this.checkingTypeMapper = checkingTypeMapper;
     }
-
     @Override
     public BaseDTO getAllCheckingTypes() {
         List<CheckingType> result = checkingTypeRepository.findAll();
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), checkingTypeMapper.DTO_LIST(result));
     }
-
     @Override
     public BaseDTO getCheckingTypeById(Long id) {
         return new BaseDTO(MetaDTO.getInstance(applicationProperties),
                 checkingTypeMapper.DTO_CheckingType(checkingTypeRepository.findById(id)
                         .orElseThrow(() -> new EntityNotFoundException("CheckingType Not Found..."))));
     }
-
     @Override
     public BaseDTO createCheckingType(CheckingTypeDTO checkingTypeDTO) {
         CheckingType checkingType = checkingTypeMapper.CheckingTypeDTO(checkingTypeDTO);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), checkingTypeMapper.DTO_CheckingType(checkingTypeRepository.save(checkingType)));
     }
-
     @Override
     public BaseDTO updateCheckingType(Long id, CheckingTypeDTO checkingTypeDTO) {
         CheckingType existingCheckingType = checkingTypeRepository.findById(id)
@@ -58,7 +54,6 @@ public class CheckingTypeServiceImpl implements CheckingTypeService {
         checkingTypeRepository.save(existingCheckingType);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), checkingTypeMapper.DTO_CheckingType(existingCheckingType));
     }
-
     @Override
     public BaseDTO deleteCheckingType(Long id) {
         CheckingType checkingType = checkingTypeRepository.findById(id)

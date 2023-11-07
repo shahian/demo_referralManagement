@@ -37,8 +37,6 @@ public class InsuranceCourseTypeServiceImpl implements InsuranceCourseTypeServic
         return new BaseDTO(MetaDTO.getInstance(applicationProperties),
                 insuranceCourseTypeMapper.DTO_Course(insuranceCourseTypeRepository.findById(courseId).orElseThrow(() -> new EntityNotFoundException("Not Exist..."))));
     }
-
-
     @Override
     public BaseDTO getAllInsuranceCoursesType() {
         return new BaseDTO(MetaDTO.getInstance(applicationProperties),
@@ -57,13 +55,11 @@ public class InsuranceCourseTypeServiceImpl implements InsuranceCourseTypeServic
                 insuranceCourseTypeMapper.DTO_LIST(insuranceCourseTypeRepository.findAllByCoreInsuranceCourseType_Id(coreIctId)));
 
     }
-
     @Override
     public BaseDTO getAllInsuranceCoursesTypeByCoreIdAndCompanyId(Long coreIctId, Long companyId) {
         return new BaseDTO(MetaDTO.getInstance(applicationProperties),
                 insuranceCourseTypeMapper.DTO_LIST(insuranceCourseTypeRepository.findAllByCoreInsuranceCourseType_IdAndAndCompany_Id(coreIctId, companyId)));
     }
-
     @Override
     public BaseDTO createInsuranceCourseType(Long companyId, Long coreIctId, InsuranceCourseTypeDTO insuranceCourseType) {
         Company company = companyRepository.findById(companyId).orElseThrow(() -> new EntityNotFoundException("Not Exist..."));
@@ -72,9 +68,7 @@ public class InsuranceCourseTypeServiceImpl implements InsuranceCourseTypeServic
         insuranceCourseType.setCoreInsuranceCourseType(coreInsuranceCourseType);
         InsuranceCourseType newInsuranceCourseType =insuranceCourseTypeRepository.save(insuranceCourseTypeMapper.Course_DTO(insuranceCourseType));
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), insuranceCourseTypeMapper.DTO_Course(newInsuranceCourseType));
-
     }
-
     @Override
     public BaseDTO updateInsuranceCourseType(Long courseId, InsuranceCourseTypeDTO updatedInsuranceCourseType) {
         InsuranceCourseType existingInsuranceCourseType = insuranceCourseTypeRepository.findById(courseId)
@@ -85,7 +79,6 @@ public class InsuranceCourseTypeServiceImpl implements InsuranceCourseTypeServic
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), insuranceCourseTypeMapper.DTO_Course(insuranceCourseTypeRepository.save(existingInsuranceCourseType)));
 
     }
-
     @Override
     public BaseDTO deleteInsuranceCourseType(Long courseId) {
         InsuranceCourseType insuranceCourseType = insuranceCourseTypeRepository.findById(courseId)

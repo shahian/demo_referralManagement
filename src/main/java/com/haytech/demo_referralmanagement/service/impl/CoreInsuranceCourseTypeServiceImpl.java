@@ -24,20 +24,17 @@ public class CoreInsuranceCourseTypeServiceImpl implements CoreInsuranceCourseTy
         this.coreInsuranceCourseTypeMapper = coreInsuranceCourseTypeMapper;
         this.coreInsuranceCourseTypeRepository = coreInsuranceCourseTypeRepository;
     }
-
     @Override
     public BaseDTO findById(Long coreInsuranceCourseId) {
         return new BaseDTO(MetaDTO.getInstance(applicationProperties),
                 coreInsuranceCourseTypeMapper.DTO_CoreInsuranceCourseType(
                         coreInsuranceCourseTypeRepository.findById(coreInsuranceCourseId).orElseThrow(() -> new NotFoundException("not exist"))));
     }
-
     @Override
     public BaseDTO findAll() {
         return new BaseDTO(MetaDTO.getInstance(applicationProperties),
                 coreInsuranceCourseTypeMapper.DTO_LIST(coreInsuranceCourseTypeRepository.findAll()));
     }
-
     @Override
     public BaseDTO createCoreInsuranceCourseType(CoreInsuranceCourseTypeDTO coreInsuranceCourseType) {
 
@@ -49,7 +46,6 @@ public class CoreInsuranceCourseTypeServiceImpl implements CoreInsuranceCourseTy
                         .insuranceCourseTypeList(coreInsuranceCourseType.getInsuranceCourseTypeList())
                         .build())));
     }
-
     @Override
     public BaseDTO updateCoreInsuranceCourseType(Long coreInsuranceCourseId, CoreInsuranceCourseTypeDTO coreInsuranceCourseType) {
         CoreInsuranceCourseType insuranceCourseType =
@@ -60,7 +56,6 @@ public class CoreInsuranceCourseTypeServiceImpl implements CoreInsuranceCourseTy
         return new BaseDTO(MetaDTO.getInstance(applicationProperties),
                 coreInsuranceCourseTypeMapper.DTO_CoreInsuranceCourseType(coreInsuranceCourseTypeRepository.save(insuranceCourseType)));
     }
-
     @Override
     public BaseDTO deleteCoreInsuranceCourseType(Long coreInsuranceCourseId) {
         CoreInsuranceCourseType insuranceCourseType =

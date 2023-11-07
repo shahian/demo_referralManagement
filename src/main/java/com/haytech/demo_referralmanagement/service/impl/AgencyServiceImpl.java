@@ -25,18 +25,15 @@ public class AgencyServiceImpl implements AgencyService {
         this.applicationProperties = applicationProperties;
         this.agencyMapper = agencyMapper;
     }
-
     @Override
     public BaseDTO getAgencyById(Long agencyId) {
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyMapper.DTO_AgencyDTO(agencyRepository.getById(agencyId)));
     }
-
     @Override
     public BaseDTO getAllAgencies() {
         List<Agency> result = agencyRepository.findAll();
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyMapper.DTO_LIST(result));
     }
-
     @Override
     public BaseDTO createAgency(AgencyDTO agencyDTO) {
         Agency agency = agencyMapper.Agency_DTO(agencyDTO); // Map DTO to Entity
@@ -53,7 +50,6 @@ public class AgencyServiceImpl implements AgencyService {
         agencyRepository.save(existingAgency);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyMapper.DTO_AgencyDTO(existingAgency));
     }
-
     @Override
     public BaseDTO deleteAgency(Long agencyId) {
         Agency agency = agencyRepository.findById(agencyId)

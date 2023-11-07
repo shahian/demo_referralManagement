@@ -4,7 +4,6 @@ package com.haytech.demo_referralmanagement.controller;
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.base.MetaDTO;
 import com.haytech.demo_referralmanagement.model.dto.AgencyCheckingDTO;
-import com.haytech.demo_referralmanagement.model.enums.ReferrType;
 import com.haytech.demo_referralmanagement.model.request.AgencyCheckingRequest;
 import com.haytech.demo_referralmanagement.service.intrface.AgencyCheckingService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
