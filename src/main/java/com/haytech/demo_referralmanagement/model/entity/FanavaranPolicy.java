@@ -1,6 +1,8 @@
 package com.haytech.demo_referralmanagement.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.haytech.demo_referralmanagement.model.base.BaseEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -20,6 +22,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "fanavaran_policy")
 @Where(clause = "deleted = false")
+//@ToString(exclude = "agencyCheckings")
 public class FanavaranPolicy extends BaseEntity {
 
     @Id
@@ -60,6 +63,7 @@ public class FanavaranPolicy extends BaseEntity {
     @Column(name = "mational_code")
     private String nationalCode;
     @OneToMany(mappedBy = "fanavaranPolicy",cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<AgencyChecking> agencyCheckings;
 
 }

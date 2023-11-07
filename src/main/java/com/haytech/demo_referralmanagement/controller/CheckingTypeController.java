@@ -19,31 +19,26 @@ public class CheckingTypeController {
     public CheckingTypeController(CheckingTypeService checkingTypeService) {
         this.checkingTypeService = checkingTypeService;
     }
-
     @GetMapping(value = "/v1/checking-types")
     public ResponseEntity<?> getAllCheckingTypes() {
         BaseDTO baseDTO = checkingTypeService.getAllCheckingTypes();
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
-
     @GetMapping(value = "/v1/checking-types/{id}")
     public ResponseEntity<?> getCheckingTypeById(@PathVariable Long id) {
         BaseDTO baseDTO = checkingTypeService.getCheckingTypeById(id);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
-
     @PostMapping(value = "/v1/checking-type")
     public ResponseEntity<?> createCheckingType(@RequestBody CheckingTypeDTO checkingTypeDTO) {
         BaseDTO baseDTO = checkingTypeService.createCheckingType(checkingTypeDTO);
         return new ResponseEntity<>(baseDTO, HttpStatus.CREATED);
     }
-
     @PutMapping(value = "/v1/checking-type/{id}")
     public ResponseEntity<?> updateCheckingType(@PathVariable Long id, @RequestBody CheckingTypeDTO checkingTypeDTO) {
         BaseDTO baseDTO = checkingTypeService.updateCheckingType(id, checkingTypeDTO);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
-
     @DeleteMapping(value = "/v1/checking-type/{id}")
     public ResponseEntity<?> deleteCheckingType(@PathVariable Long id) {
         BaseDTO baseDTO = checkingTypeService.deleteCheckingType(id);

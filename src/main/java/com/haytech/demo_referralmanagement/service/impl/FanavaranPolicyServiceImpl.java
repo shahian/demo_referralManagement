@@ -41,14 +41,12 @@ public class FanavaranPolicyServiceImpl implements FanavaranPolicyService {
         List<FanavaranPolicy> result = fanavaranPolicyRepository.findAll();
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), fanavaranPolicyMapper.DTO_LIST(result));
     }
-
     @Override
     public BaseDTO createFanavaranPolicy(FanavaranPolicyDTO fanavaranPolicyDTO) {
         FanavaranPolicy fanavaranPolicy = fanavaranPolicyMapper.FanavaranPolicy_DTO(fanavaranPolicyDTO);
         fanavaranPolicy = fanavaranPolicyRepository.save(fanavaranPolicy);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), fanavaranPolicyMapper.DTO_FanavaranPolicyDTO(fanavaranPolicy));
     }
-
     @Override
     public BaseDTO updateFanavaranPolicy(Long fanavaranPolicyId, FanavaranPolicyDTO updatedFanavaranPolicy) {
         FanavaranPolicy existingFanavaranPolicy = fanavaranPolicyRepository.findById(fanavaranPolicyId)
@@ -65,7 +63,6 @@ public class FanavaranPolicyServiceImpl implements FanavaranPolicyService {
         existingFanavaranPolicy.setAgencyName(updatedFanavaranPolicy.getAgencyName());
         existingFanavaranPolicy.setNationalCode(updatedFanavaranPolicy.getNationalCode());
         existingFanavaranPolicy.setAgencyCheckings(updatedFanavaranPolicy.getAgencyCheckings());
-
         fanavaranPolicyRepository.save(existingFanavaranPolicy);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), fanavaranPolicyMapper.DTO_FanavaranPolicyDTO(existingFanavaranPolicy));
     }

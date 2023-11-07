@@ -41,7 +41,6 @@ public class CompanyServiceImpl implements CompanyService {
     public BaseDTO createCompany(CompanyDTO company) {
         Company newCompany = companyRepository.save(companyMapper.Company_DTO(company));
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(newCompany));
-
     }    @Override
     public BaseDTO updateCompany(Long companyId, CompanyDTO updatedCompany) {
         Company existingCompany = companyRepository.findById(companyId)
@@ -50,9 +49,7 @@ public class CompanyServiceImpl implements CompanyService {
         existingCompany.setCode(updatedCompany.getCode());
         companyRepository.save(existingCompany);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_Company(existingCompany));
-
     }
-
     @Override
     public BaseDTO deleteCompany(Long companyId) {
         Company company = companyRepository.findById(companyId)
@@ -63,6 +60,4 @@ public class CompanyServiceImpl implements CompanyService {
         companyRepository.deleteById(companyId);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), company);
     }
-
-
 }

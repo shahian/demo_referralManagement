@@ -4,7 +4,7 @@ package com.haytech.demo_referralmanagement.controller;
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.base.MetaDTO;
 import com.haytech.demo_referralmanagement.model.dto.AgencyCheckingDTO;
-import com.haytech.demo_referralmanagement.model.enums.ReferrType;
+import com.haytech.demo_referralmanagement.model.request.AgencyCheckingRequest;
 import com.haytech.demo_referralmanagement.service.intrface.AgencyCheckingService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,26 +29,26 @@ public class AgencyCheckingController {
 
     @GetMapping(value = "/v1/agency_checking_filter_query")
     public ResponseEntity<?> searchAgencyCheckingQuery(
-            @RequestParam(value = "personnelId", required = false) Long personnelId,
+            @RequestParam(value = "personnelId", required = false) String personnelId,
             @RequestParam(value = "insuranceNumber", required = false) String insuranceNumber,
             @RequestParam(value = "nationalCode", required = false) String nationalCode,
             @RequestParam(value = "isDone", required = false, defaultValue = "true") boolean isDone,
-            @RequestParam(value = "checkingTypeName", required = false) String checkingTypeName) {
+            @RequestParam(value = "checkingTypeId", required = false) Long checkingTypeId) {
 
         BaseDTO baseDTO = agencyCheckingService.filterAgencyCheckingQuery(
-                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeName);
+                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
     @GetMapping(value = "/v1/agency_checking_filter_criteria")
     public ResponseEntity<?> searchAgencyCheckingCriteria(
-            @RequestParam(value = "personnelId", required = false) Long personnelId,
+            @RequestParam(value = "personnelId", required = false) String personnelId,
             @RequestParam(value = "insuranceNumber", required = false) String insuranceNumber,
             @RequestParam(value = "nationalCode", required = false) String nationalCode,
             @RequestParam(value = "isDone", required = false, defaultValue = "true") boolean isDone,
-            @RequestParam(value = "checkingTypeName", required = false) String checkingTypeName) {
+            @RequestParam(value = "checkingTypeId", required = false) Long checkingTypeId) {
 
         BaseDTO baseDTO = agencyCheckingService.filterAgencyCheckingCriteria(
-                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeName);
+                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
 
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
@@ -59,8 +59,8 @@ public class AgencyCheckingController {
     }
 
     @PostMapping(value = "/v1/agency_checking")
-    public ResponseEntity<?> createAgencyChecking(@RequestBody AgencyCheckingDTO agencyCheckingDTO) {
-        BaseDTO baseDTO  = agencyCheckingService.createAgencyChecking(agencyCheckingDTO);
+    public ResponseEntity<?> createAgencyChecking(@RequestBody AgencyCheckingRequest agencyCheckingRequest) {
+        BaseDTO baseDTO  = agencyCheckingService.createAgencyChecking(agencyCheckingRequest);
         return new ResponseEntity<>(baseDTO, HttpStatus.CREATED);
     }
 
