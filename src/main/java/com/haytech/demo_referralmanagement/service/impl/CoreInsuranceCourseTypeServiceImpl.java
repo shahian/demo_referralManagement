@@ -2,14 +2,23 @@ package com.haytech.demo_referralmanagement.service.impl;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.base.MetaDTO;
+import com.haytech.demo_referralmanagement.model.dto.CompanyDTO;
 import com.haytech.demo_referralmanagement.model.dto.CoreInsuranceCourseTypeDTO;
+import com.haytech.demo_referralmanagement.model.entity.Company;
 import com.haytech.demo_referralmanagement.model.entity.CoreInsuranceCourseType;
 import com.haytech.demo_referralmanagement.model.mapper.CoreInsuranceCourseTypeMapper;
 import com.haytech.demo_referralmanagement.repository.CoreInsuranceCourseTypeRepository;
 import com.haytech.demo_referralmanagement.service.intrface.CoreInsuranceCourseTypeService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CoreInsuranceCourseTypeServiceImpl implements CoreInsuranceCourseTypeService {
@@ -31,9 +40,16 @@ public class CoreInsuranceCourseTypeServiceImpl implements CoreInsuranceCourseTy
                         coreInsuranceCourseTypeRepository.findById(coreInsuranceCourseId).orElseThrow(() -> new NotFoundException("not exist"))));
     }
     @Override
-    public BaseDTO findAll() {
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties),
-                coreInsuranceCourseTypeMapper.DTO_LIST(coreInsuranceCourseTypeRepository.findAll()));
+    public BaseDTO findAll(int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<CoreInsuranceCourseType> coreInsuranceCourseTypes = coreInsuranceCourseTypeRepository.findAll(pageable);
+        List<CoreInsuranceCourseTypeDTO> coreInsuranceCourseTypeDTOS = coreInsuranceCourseTypes.stream()
+                .map(coreInsuranceCourseTypeMapper::DTO_CoreInsuranceCourseType)
+                .collect(Collectors.toList());
+        Page<CoreInsuranceCourseTypeDTO> coreInsuranceCourseTypeDTOPage = new PageImpl<>(coreInsuranceCourseTypeDTOS, pageable, coreInsuranceCourseTypes.getTotalElements());
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties),coreInsuranceCourseTypeDTOPage);
+
     }
     @Override
     public BaseDTO createCoreInsuranceCourseType(CoreInsuranceCourseTypeDTO coreInsuranceCourseType) {

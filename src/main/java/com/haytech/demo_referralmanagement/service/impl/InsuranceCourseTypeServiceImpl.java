@@ -12,9 +12,15 @@ import com.haytech.demo_referralmanagement.repository.CoreInsuranceCourseTypeRep
 import com.haytech.demo_referralmanagement.repository.InsuranceCourseTypeRepository;
 import com.haytech.demo_referralmanagement.service.intrface.InsuranceCourseTypeService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InsuranceCourseTypeServiceImpl implements InsuranceCourseTypeService {
@@ -38,9 +44,14 @@ public class InsuranceCourseTypeServiceImpl implements InsuranceCourseTypeServic
                 insuranceCourseTypeMapper.DTO_Course(insuranceCourseTypeRepository.findById(courseId).orElseThrow(() -> new EntityNotFoundException("Not Exist..."))));
     }
     @Override
-    public BaseDTO getAllInsuranceCoursesType() {
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties),
-                insuranceCourseTypeMapper.DTO_LIST(insuranceCourseTypeRepository.findAll()));
+    public BaseDTO getAllInsuranceCoursesType(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<InsuranceCourseType> insuranceCourseTypes = insuranceCourseTypeRepository.findAll(pageable);
+        List<InsuranceCourseTypeDTO> insuranceCourseTypeDTOList = insuranceCourseTypes.stream()
+                .map(insuranceCourseTypeMapper::DTO_Course)
+                .collect(Collectors.toList());
+        Page<InsuranceCourseTypeDTO> insuranceCourseTypeDTOPage = new PageImpl<>(insuranceCourseTypeDTOList, pageable, insuranceCourseTypes.getTotalElements());
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties),insuranceCourseTypeDTOPage);
     }
 
     @Override

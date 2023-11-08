@@ -2,11 +2,10 @@ package com.haytech.demo_referralmanagement.service.intrface;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.dto.InsuranceCourseTypeDTO;
-import com.haytech.demo_referralmanagement.model.entity.InsuranceCourseType;
 
 public interface InsuranceCourseTypeService {
     BaseDTO createInsuranceCourseType(Long companyId,Long coreIctId, InsuranceCourseTypeDTO insuranceCourseType);
-    BaseDTO getAllInsuranceCoursesType();
+    BaseDTO getAllInsuranceCoursesType(int page, int size);
 
     BaseDTO getAllInsuranceCourseTypeByCompanyId(Long courseId);
 

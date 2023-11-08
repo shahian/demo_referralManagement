@@ -17,48 +17,56 @@ public class InsuranceCourseTypeController {
     private InsuranceCourseTypeService insuranceCourseTypeService;
 
     @GetMapping(value = "/v1/insurance_courses_type")
-    public  ResponseEntity<?> getAllCourses() {
+    public ResponseEntity<?> getAllCourses(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
 
-        BaseDTO baseDTO =  insuranceCourseTypeService.getAllInsuranceCoursesType();
+        BaseDTO baseDTO = insuranceCourseTypeService.getAllInsuranceCoursesType(page,size);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
+
     @GetMapping(value = "/v1/insurance_courses_type_by_company_id")
-    public  ResponseEntity<?> getAllInsuranceCoursesTypeByCompanyId(@RequestParam Long companyId) {
+    public ResponseEntity<?> getAllInsuranceCoursesTypeByCompanyId(@RequestParam Long companyId) {
 
-        BaseDTO baseDTO =  insuranceCourseTypeService.getAllInsuranceCourseTypeByCompanyId(companyId);
+        BaseDTO baseDTO = insuranceCourseTypeService.getAllInsuranceCourseTypeByCompanyId(companyId);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
+
     @GetMapping(value = "/v1/insurance_courses_type_by_core_ict_id")
-    public  ResponseEntity<?> getAllInsuranceCoursesTypeByCoreIctId(@RequestParam Long coreIctId) {
+    public ResponseEntity<?> getAllInsuranceCoursesTypeByCoreIctId(@RequestParam Long coreIctId) {
 
-        BaseDTO baseDTO =  insuranceCourseTypeService.getAllInsuranceCourseTypeByCoreIctId(coreIctId);
+        BaseDTO baseDTO = insuranceCourseTypeService.getAllInsuranceCourseTypeByCoreIctId(coreIctId);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
+
     @GetMapping(value = "/v1/insurance_courses_type_by_core_id_and_company_id")
-    public  ResponseEntity<?> getAllInsuranceCoursesTypeByCoreIdAndCompanyId(@RequestParam Long coreIctId ,@RequestParam Long companyId) {
+    public ResponseEntity<?> getAllInsuranceCoursesTypeByCoreIdAndCompanyId(@RequestParam Long coreIctId, @RequestParam Long companyId) {
 
-        BaseDTO baseDTO =  insuranceCourseTypeService.getAllInsuranceCoursesTypeByCoreIdAndCompanyId(coreIctId,companyId);
+        BaseDTO baseDTO = insuranceCourseTypeService.getAllInsuranceCoursesTypeByCoreIdAndCompanyId(coreIctId, companyId);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
+
     @GetMapping(value = "/v1/insurance_course_type/{courseId}")
-    public  ResponseEntity<?> getInsuranceCourseType(@PathVariable Long courseId) {
+    public ResponseEntity<?> getInsuranceCourseType(@PathVariable Long courseId) {
 
         BaseDTO baseDTO = insuranceCourseTypeService.getInsuranceCourseType(courseId);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
+
     @PostMapping(value = "/v1/insurance_course_type")
-    public ResponseEntity<?> createInsuranceCourseType(@RequestParam Long companyId,@RequestParam Long coreIctId,@RequestBody InsuranceCourseTypeDTO insuranceCourseType) {
-        BaseDTO baseDTO =  insuranceCourseTypeService.createInsuranceCourseType(companyId,coreIctId,insuranceCourseType);
+    public ResponseEntity<?> createInsuranceCourseType(@RequestParam Long companyId, @RequestParam Long coreIctId, @RequestBody InsuranceCourseTypeDTO insuranceCourseType) {
+        BaseDTO baseDTO = insuranceCourseTypeService.createInsuranceCourseType(companyId, coreIctId, insuranceCourseType);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
+
     @PutMapping(value = "/v1/insurance_course_type/{courseId}")
-    public  ResponseEntity<?> updateInsuranceCourseType(@PathVariable Long courseId, @RequestBody InsuranceCourseTypeDTO insuranceCourseType) {
+    public ResponseEntity<?> updateInsuranceCourseType(@PathVariable Long courseId, @RequestBody InsuranceCourseTypeDTO insuranceCourseType) {
         BaseDTO baseDTO = insuranceCourseTypeService.updateInsuranceCourseType(courseId, insuranceCourseType);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/v1/insurance_course_type/{courseId}")
-    public  ResponseEntity<?> deleteInsuranceCourseType(@PathVariable Long courseId) {
+    public ResponseEntity<?> deleteInsuranceCourseType(@PathVariable Long courseId) {
 
         BaseDTO baseDTO = insuranceCourseTypeService.deleteInsuranceCourseType(courseId);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);

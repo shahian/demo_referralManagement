@@ -21,8 +21,10 @@ public class FanavaranPolicyController {
     }
 
     @GetMapping(value = "/v1/fanavaran-policies")
-    public ResponseEntity<?> getAllFanavaranPolicies() {
-        BaseDTO baseDTO = fanavaranPolicyService.getAllFanavaranPolicies();
+    public ResponseEntity<?> getAllFanavaranPolicies(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        BaseDTO baseDTO = fanavaranPolicyService.getAllFanavaranPolicies(page,size);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
@@ -34,13 +36,13 @@ public class FanavaranPolicyController {
 
     @PostMapping(value = "/v1/fanavaran-policy")
     public ResponseEntity<?> createFanavaranPolicy(@RequestBody FanavaranPolicyDTO fanavaranPolicyDTO) {
-        BaseDTO baseDTO  = fanavaranPolicyService.createFanavaranPolicy(fanavaranPolicyDTO);
+        BaseDTO baseDTO = fanavaranPolicyService.createFanavaranPolicy(fanavaranPolicyDTO);
         return new ResponseEntity<>(baseDTO, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/v1/fanavaran-policy/{id}")
     public ResponseEntity<?> updateFanavaranPolicy(@PathVariable Long id, @RequestBody FanavaranPolicyDTO fanavaranPolicyDTO) {
-        BaseDTO baseDTO  = fanavaranPolicyService.updateFanavaranPolicy(id, fanavaranPolicyDTO);
+        BaseDTO baseDTO = fanavaranPolicyService.updateFanavaranPolicy(id, fanavaranPolicyDTO);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
