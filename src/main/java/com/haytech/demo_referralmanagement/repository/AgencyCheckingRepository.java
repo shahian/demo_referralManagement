@@ -1,8 +1,8 @@
 package com.haytech.demo_referralmanagement.repository;
 
 import com.haytech.demo_referralmanagement.model.entity.AgencyChecking;
-import com.haytech.demo_referralmanagement.model.entity.ReferralManagement;
 import com.haytech.demo_referralmanagement.model.enums.ReferrType;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 @Repository
@@ -28,14 +29,6 @@ public interface AgencyCheckingRepository extends JpaRepository<AgencyChecking,L
             "AND (:isDone IS NULL OR ac.isDone = :isDone) " +
             "AND (:checkingTypeId IS NULL OR ct.id = :checkingTypeId)")
     List<AgencyChecking> findByQuery(
-            String personnelId, String insuranceNumber, String nationalCode, Boolean isDone, Long checkingTypeId);
-    @Query("SELECT ac FROM AgencyChecking ac " +
-            "WHERE (:personnelId IS NULL OR ac.fanavaranPolicy.personnelId = :personnelId) " +
-            "AND (:insuranceNumber IS NULL OR ac.fanavaranPolicy.insuranceNumber = :insuranceNumber) " +
-            "AND (:nationalCode IS NULL OR ac.fanavaranPolicy.nationalCode = :nationalCode) " +
-            "AND (:isDone IS NULL OR ac.isDone = :isDone) " +
-            "AND (:checkingTypeId IS NULL OR ac.checkingType.id = :checkingTypeId)")
-    List<AgencyChecking> findByQuery1(
             String personnelId, String insuranceNumber, String nationalCode, Boolean isDone, Long checkingTypeId);
   default List<AgencyChecking> findByFilter(
             Long personnelId, String insuranceNumber, String nationalCode, Boolean processed, ReferrType referrType) {
@@ -56,6 +49,5 @@ public interface AgencyCheckingRepository extends JpaRepository<AgencyChecking,L
 
     }
 
-    @Query("SELECT rm FROM AgencyChecking rm")
-    List<AgencyChecking> findAllByCriteria();
+    Page<AgencyChecking> findAll (Pageable pageable);
 }

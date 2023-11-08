@@ -2,11 +2,10 @@ package com.haytech.demo_referralmanagement.service.intrface;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.dto.AgencyCheckingDTO;
-import com.haytech.demo_referralmanagement.model.enums.ReferrType;
 import com.haytech.demo_referralmanagement.model.request.AgencyCheckingRequest;
 
 public interface AgencyCheckingService {
-    BaseDTO getAll();
+    BaseDTO getAll(int page, int size);
 
     BaseDTO filterAgencyCheckingQuery(String personnelId, String insuranceNumber, String nationalCode, boolean isDone, Long checkingTypeId);
     BaseDTO filterAgencyCheckingCriteria(String personnelId, String insuranceNumber, String nationalCode, boolean isDone, Long checkingTypeId);

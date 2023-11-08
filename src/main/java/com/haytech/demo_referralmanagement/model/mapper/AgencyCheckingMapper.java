@@ -6,6 +6,7 @@ import com.haytech.demo_referralmanagement.model.entity.ReferralManagement;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 

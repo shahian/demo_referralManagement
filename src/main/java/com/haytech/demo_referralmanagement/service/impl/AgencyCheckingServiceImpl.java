@@ -13,11 +13,15 @@ import com.haytech.demo_referralmanagement.repository.FanavaranPolicyRepository;
 import com.haytech.demo_referralmanagement.repository.specification.AgencyCheckingSpecifications;
 import com.haytech.demo_referralmanagement.service.intrface.AgencyCheckingService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Pageable;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AgencyCheckingServiceImpl implements AgencyCheckingService {
@@ -39,9 +43,16 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
     }
 
     @Override
-    public BaseDTO getAll() {
-        List<AgencyCheckingDTO> agencyCheckingDTOS = agencyCheckingMapper.DTO_LIST(agencyCheckingRepository.findAllByCriteria());
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingDTOS);
+    public BaseDTO getAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<AgencyChecking> allAgencyChecking = agencyCheckingRepository.findAll(pageable);
+
+        List<AgencyCheckingDTO> agencyCheckingDTOS = allAgencyChecking.stream()
+                .map(agencyCheckingMapper::DTO_AgencyChecking)
+                .collect(Collectors.toList());
+
+        Page<AgencyCheckingDTO> agencyCheckingDTOPage = new PageImpl<>(agencyCheckingDTOS, pageable, allAgencyChecking.getTotalElements());
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingDTOPage);
     }
 
     public BaseDTO filterAgencyCheckingQuery(

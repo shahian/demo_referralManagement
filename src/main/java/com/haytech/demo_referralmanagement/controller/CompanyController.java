@@ -27,9 +27,11 @@ public class CompanyController {
     }
 
     @GetMapping(value = "v1/companies")
-    public ResponseEntity<?> getAllCompanies() {
+    public ResponseEntity<?> getAllCompanies(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
 
-        BaseDTO baseDTO = companyService.getAllCompanies();
+        BaseDTO baseDTO = companyService.getAllCompanies(page,size);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
