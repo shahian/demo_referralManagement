@@ -14,4 +14,6 @@ public interface CompanyService {
     BaseDTO deleteCompany(Long companyId);
 
     BaseDTO getCompany(Long companyId);
+
+    BaseDTO getAllCompaniesById(int page, int size, Long companyId);
 }

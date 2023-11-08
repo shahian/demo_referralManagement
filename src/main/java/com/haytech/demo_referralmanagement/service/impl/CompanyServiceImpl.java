@@ -40,6 +40,27 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public BaseDTO getAllCompaniesById(int page, int size, Long companyId) {
+        if (companyId != null) {
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Company> companies = companyRepository.findAllById(pageable, companyId);
+            List<CompanyDTO> companyDTOS = companies.stream()
+                    .map(companyMapper::DTO_Company)
+                    .collect(Collectors.toList());
+            Page<CompanyDTO> companyDTOPage = new PageImpl<>(companyDTOS, pageable, companies.getTotalElements());
+            return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyDTOPage);
+        }else {
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Company> companies = companyRepository.findAll(pageable);
+            List<CompanyDTO> companyDTOS = companies.stream()
+                    .map(companyMapper::DTO_Company)
+                    .collect(Collectors.toList());
+            Page<CompanyDTO> companyDTOPage = new PageImpl<>(companyDTOS, pageable, companies.getTotalElements());
+            return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyDTOPage);
+        }
+    }
+
+    @Override
     public BaseDTO getAllCompanies(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Company> companies = companyRepository.findAll(pageable);
@@ -47,7 +68,7 @@ public class CompanyServiceImpl implements CompanyService {
                 .map(companyMapper::DTO_Company)
                 .collect(Collectors.toList());
         Page<CompanyDTO> companyDTOPage = new PageImpl<>(companyDTOS, pageable, companies.getTotalElements());
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties),companyDTOPage);
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyDTOPage);
     }
 
     @Override
@@ -73,7 +94,8 @@ public class CompanyServiceImpl implements CompanyService {
         if (company.getInsuranceCourseTypeList().stream().count() > 0) {
             throw new EntityExistsException("company has courses");
         }
-        companyRepository.deleteById(companyId);
+        company.setDeleted(true);
+        companyRepository.save(company);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), company);
     }
 }

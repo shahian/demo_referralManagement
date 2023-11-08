@@ -22,10 +22,10 @@ public class AgencyCheckingController {
 
 
     @GetMapping(value = "/v1/agency_checkings")
-    public ResponseEntity<?> getAll( @RequestParam(value = "page", defaultValue = "0") int page,
-                                     @RequestParam(value = "size", defaultValue = "10") int size) {
+    public ResponseEntity<?> getAll(@RequestParam(value = "page", defaultValue = "0") int page,
+                                    @RequestParam(value = "size", defaultValue = "10") int size) {
 
-        BaseDTO baseDTO = new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingService.getAll(page,size));
+        BaseDTO baseDTO = new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingService.getAll(page, size));
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
@@ -35,25 +35,30 @@ public class AgencyCheckingController {
             @RequestParam(value = "insuranceNumber", required = false) String insuranceNumber,
             @RequestParam(value = "nationalCode", required = false) String nationalCode,
             @RequestParam(value = "isDone", required = false, defaultValue = "true") boolean isDone,
-            @RequestParam(value = "checkingTypeId", required = false) Long checkingTypeId) {
-
+            @RequestParam(value = "checkingTypeId", required = false) Long checkingTypeId,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10")int size) {
         BaseDTO baseDTO = agencyCheckingService.filterAgencyCheckingQuery(
-                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
+                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId,page,size);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
+
     @GetMapping(value = "/v1/agency_checking_filter_criteria")
     public ResponseEntity<?> searchAgencyCheckingCriteria(
             @RequestParam(value = "personnelId", required = false) String personnelId,
             @RequestParam(value = "insuranceNumber", required = false) String insuranceNumber,
             @RequestParam(value = "nationalCode", required = false) String nationalCode,
             @RequestParam(value = "isDone", required = false, defaultValue = "true") boolean isDone,
-            @RequestParam(value = "checkingTypeId", required = false) Long checkingTypeId) {
+            @RequestParam(value = "checkingTypeId", required = false) Long checkingTypeId,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10")int size) {
 
         BaseDTO baseDTO = agencyCheckingService.filterAgencyCheckingCriteria(
-                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
+                personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId,page,size);
 
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
+
     @GetMapping(value = "/v1/agency_checking/{id}")
     public ResponseEntity<?> getAgencyCheckingById(@PathVariable Long id) {
         BaseDTO baseDTO = agencyCheckingService.getAgencyCheckingById(id);
@@ -62,13 +67,13 @@ public class AgencyCheckingController {
 
     @PostMapping(value = "/v1/agency_checking")
     public ResponseEntity<?> createAgencyChecking(@RequestBody AgencyCheckingRequest agencyCheckingRequest) {
-        BaseDTO baseDTO  = agencyCheckingService.createAgencyChecking(agencyCheckingRequest);
+        BaseDTO baseDTO = agencyCheckingService.createAgencyChecking(agencyCheckingRequest);
         return new ResponseEntity<>(baseDTO, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/v1/agency_checking/{id}")
     public ResponseEntity<?> updateAgencyChecking(@PathVariable Long id, @RequestBody AgencyCheckingDTO agencyCheckingDTO) {
-        BaseDTO baseDTO  = agencyCheckingService.updateAgencyChecking(id, agencyCheckingDTO);
+        BaseDTO baseDTO = agencyCheckingService.updateAgencyChecking(id, agencyCheckingDTO);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 

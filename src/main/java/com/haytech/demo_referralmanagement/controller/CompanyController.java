@@ -26,7 +26,7 @@ public class CompanyController {
         return new ResponseEntity<>(baseDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "v1/companies")
+    @GetMapping(value = "/v1/companies")
     public ResponseEntity<?> getAllCompanies(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
@@ -34,7 +34,15 @@ public class CompanyController {
         BaseDTO baseDTO = companyService.getAllCompanies(page,size);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
+    @GetMapping(value = "/v1/companiesById")
+    public ResponseEntity<?> getAllCompanies(
+            @RequestParam(value = "companyId", required = false) Long companyId,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
 
+        BaseDTO baseDTO = companyService.getAllCompaniesById(page,size,companyId);
+        return new ResponseEntity<>(baseDTO, HttpStatus.OK);
+    }
     @GetMapping(value = "/v1/company")
     public ResponseEntity<?> getCompany(@RequestParam Long companyId) {
         BaseDTO baseDTO = companyService.getCompany(companyId);

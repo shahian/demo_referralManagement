@@ -79,7 +79,8 @@ public class FanavaranPolicyServiceImpl implements FanavaranPolicyService {
     public BaseDTO deleteFanavaranPolicy(Long fanavaranPolicyId) {
         FanavaranPolicy fanavaranPolicy = fanavaranPolicyRepository.findById(fanavaranPolicyId)
                 .orElseThrow(() -> new EntityNotFoundException("FanavaranPolicy not found"));
-        fanavaranPolicyRepository.delete(fanavaranPolicy);
+        fanavaranPolicy.setDeleted(true);
+        fanavaranPolicyRepository.save(fanavaranPolicy);
         return new BaseDTO(MetaDTO.getInstance(applicationProperties), fanavaranPolicy);
     }
 }

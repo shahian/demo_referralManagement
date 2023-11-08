@@ -60,10 +60,14 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
             String insuranceNumber,
             String nationalCode,
             boolean isDone,
-            Long checkingTypeId) {
-        List<AgencyChecking> filteredData = filterData(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
-        List<AgencyCheckingDTO> result = agencyCheckingMapper.DTO_LIST(filteredData);
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), result);
+            Long checkingTypeId, int page, int size) {
+        Pageable pageable=PageRequest.of(page,size);
+        Page<AgencyChecking>agencyCheckings=filterData(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId,pageable);
+        List<AgencyCheckingDTO>agencyCheckingDTOS=agencyCheckings.stream()
+                .map(agencyCheckingMapper::DTO_AgencyChecking)
+                .collect(Collectors.toList());
+        Page<AgencyCheckingDTO>agencyCheckingDTOPage=new PageImpl<>(agencyCheckingDTOS,pageable,agencyCheckings.getTotalElements());
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingDTOPage);
 
     }
 
@@ -72,20 +76,21 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
             String insuranceNumber,
             String nationalCode,
             boolean isDone,
-            Long checkingTypeId) {
-
+            Long checkingTypeId, int page, int size) {
+        Pageable pageable=PageRequest.of(page,size);
         Specification<AgencyChecking> spec = AgencyCheckingSpecifications.findByCriteria(
                 personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
-        return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingMapper.DTO_LIST(agencyCheckingRepository.findAll(spec)));
+        Page<AgencyChecking> resultPage = agencyCheckingRepository.findAll(spec, pageable);
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingMapper.DTO_LIST(resultPage.getContent()));
     }
 
-    private List<AgencyChecking> filterData(
+    private Page<AgencyChecking> filterData(
             String personnelId,
             String insuranceNumber,
             String nationalCode,
             boolean isDone,
-            Long checkingTypeId) {
-        return agencyCheckingRepository.findByQuery(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
+            Long checkingTypeId, Pageable pageable) {
+        return agencyCheckingRepository.findByQuery(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId,pageable);
     }
     @Override
     public BaseDTO getAgencyCheckingById(Long agencyCheckingId) {

@@ -28,8 +28,8 @@ public interface AgencyCheckingRepository extends JpaRepository<AgencyChecking,L
             "AND (:nationalCode IS NULL OR fp.nationalCode = :nationalCode) " +
             "AND (:isDone IS NULL OR ac.isDone = :isDone) " +
             "AND (:checkingTypeId IS NULL OR ct.id = :checkingTypeId)")
-    List<AgencyChecking> findByQuery(
-            String personnelId, String insuranceNumber, String nationalCode, Boolean isDone, Long checkingTypeId);
+    Page<AgencyChecking> findByQuery(
+            String personnelId, String insuranceNumber, String nationalCode, Boolean isDone, Long checkingTypeId, Pageable pageable);
   default List<AgencyChecking> findByFilter(
             Long personnelId, String insuranceNumber, String nationalCode, Boolean processed, ReferrType referrType) {
         return findAll((root, query, criteriaBuilder) -> {
