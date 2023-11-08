@@ -22,7 +22,7 @@ public class AgencyCheckingController {
 
 
     @GetMapping(value = "/v1/agency_checkings")
-    public ResponseEntity<?> getAll(@RequestParam(value = "page", defaultValue = "0") int page,
+    public ResponseEntity<?> getAll(@RequestParam(value = "page", defaultValue = "1") int page,
                                     @RequestParam(value = "size", defaultValue = "10") int size) {
 
         BaseDTO baseDTO = new BaseDTO(MetaDTO.getInstance(applicationProperties), agencyCheckingService.getAll(page, size));
@@ -36,7 +36,7 @@ public class AgencyCheckingController {
             @RequestParam(value = "nationalCode", required = false) String nationalCode,
             @RequestParam(value = "isDone", required = false, defaultValue = "true") boolean isDone,
             @RequestParam(value = "checkingTypeId", required = false) Long checkingTypeId,
-            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10")int size) {
         BaseDTO baseDTO = agencyCheckingService.filterAgencyCheckingQuery(
                 personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId,page,size);
@@ -50,7 +50,7 @@ public class AgencyCheckingController {
             @RequestParam(value = "nationalCode", required = false) String nationalCode,
             @RequestParam(value = "isDone", required = false, defaultValue = "true") boolean isDone,
             @RequestParam(value = "checkingTypeId", required = false) Long checkingTypeId,
-            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10")int size) {
 
         BaseDTO baseDTO = agencyCheckingService.filterAgencyCheckingCriteria(

@@ -13,12 +13,11 @@ import com.haytech.demo_referralmanagement.repository.FanavaranPolicyRepository;
 import com.haytech.demo_referralmanagement.repository.specification.AgencyCheckingSpecifications;
 import com.haytech.demo_referralmanagement.service.intrface.AgencyCheckingService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
+import com.haytech.demo_referralmanagement.utility.PageableUtility;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Pageable;
+
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,19 +31,22 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
     private final CheckingTypeRepository checkingTypeRepository;
 
     private final AgencyCheckingMapper agencyCheckingMapper;
+    private final PageableUtility pageableUtility;
 
-    public AgencyCheckingServiceImpl(ApplicationProperties applicationProperties, AgencyCheckingRepository agencyCheckingRepository, FanavaranPolicyRepository fanavaranPolicyRepository, AgencyRepository agencyRepository, CheckingTypeRepository checkingTypeRepository, AgencyCheckingMapper agencyCheckingMapper) {
+    public AgencyCheckingServiceImpl(ApplicationProperties applicationProperties, AgencyCheckingRepository agencyCheckingRepository, FanavaranPolicyRepository fanavaranPolicyRepository, AgencyRepository agencyRepository, CheckingTypeRepository checkingTypeRepository, AgencyCheckingMapper agencyCheckingMapper, PageableUtility pageableUtility) {
         this.applicationProperties = applicationProperties;
         this.agencyCheckingRepository = agencyCheckingRepository;
         this.fanavaranPolicyRepository = fanavaranPolicyRepository;
         this.agencyRepository = agencyRepository;
         this.checkingTypeRepository = checkingTypeRepository;
         this.agencyCheckingMapper = agencyCheckingMapper;
+        this.pageableUtility = pageableUtility;
     }
 
     @Override
     public BaseDTO getAll(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = pageableUtility.createPageable(page, size, Sort.by(Sort.Order.asc("id")));
+
         Page<AgencyChecking> allAgencyChecking = agencyCheckingRepository.findAll(pageable);
 
         List<AgencyCheckingDTO> agencyCheckingDTOS = allAgencyChecking.stream()
@@ -61,7 +63,8 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
             String nationalCode,
             boolean isDone,
             Long checkingTypeId, int page, int size) {
-        Pageable pageable=PageRequest.of(page,size);
+        Pageable pageable = pageableUtility.createPageable(page, size, Sort.by(Sort.Order.asc("id")));
+
         Page<AgencyChecking>agencyCheckings=filterData(personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId,pageable);
         List<AgencyCheckingDTO>agencyCheckingDTOS=agencyCheckings.stream()
                 .map(agencyCheckingMapper::DTO_AgencyChecking)
@@ -77,7 +80,7 @@ public class AgencyCheckingServiceImpl implements AgencyCheckingService {
             String nationalCode,
             boolean isDone,
             Long checkingTypeId, int page, int size) {
-        Pageable pageable=PageRequest.of(page,size);
+        Pageable pageable = pageableUtility.createPageable(page, size, Sort.by(Sort.Order.asc("id")));
         Specification<AgencyChecking> spec = AgencyCheckingSpecifications.findByCriteria(
                 personnelId, insuranceNumber, nationalCode, isDone, checkingTypeId);
         Page<AgencyChecking> resultPage = agencyCheckingRepository.findAll(spec, pageable);

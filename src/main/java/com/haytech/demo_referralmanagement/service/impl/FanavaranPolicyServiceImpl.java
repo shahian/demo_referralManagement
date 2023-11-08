@@ -2,18 +2,14 @@ package com.haytech.demo_referralmanagement.service.impl;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.base.MetaDTO;
-import com.haytech.demo_referralmanagement.model.dto.CoreInsuranceCourseTypeDTO;
 import com.haytech.demo_referralmanagement.model.dto.FanavaranPolicyDTO;
-import com.haytech.demo_referralmanagement.model.entity.CoreInsuranceCourseType;
 import com.haytech.demo_referralmanagement.model.entity.FanavaranPolicy;
 import com.haytech.demo_referralmanagement.model.mapper.FanavaranPolicyMapper;
 import com.haytech.demo_referralmanagement.repository.FanavaranPolicyRepository;
 import com.haytech.demo_referralmanagement.service.intrface.FanavaranPolicyService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import com.haytech.demo_referralmanagement.utility.PageableUtility;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -25,11 +21,14 @@ public class FanavaranPolicyServiceImpl implements FanavaranPolicyService {
     private final FanavaranPolicyRepository fanavaranPolicyRepository;
     private final ApplicationProperties applicationProperties;
     private final FanavaranPolicyMapper fanavaranPolicyMapper;
+    private final PageableUtility pageableUtility;
 
-    public FanavaranPolicyServiceImpl(FanavaranPolicyRepository fanavaranPolicyRepository, ApplicationProperties applicationProperties, FanavaranPolicyMapper fanavaranPolicyMapper) {
+
+    public FanavaranPolicyServiceImpl(FanavaranPolicyRepository fanavaranPolicyRepository, ApplicationProperties applicationProperties, FanavaranPolicyMapper fanavaranPolicyMapper, PageableUtility pageableUtility) {
         this.fanavaranPolicyRepository = fanavaranPolicyRepository;
         this.applicationProperties = applicationProperties;
         this.fanavaranPolicyMapper = fanavaranPolicyMapper;
+        this.pageableUtility = pageableUtility;
     }
 
     @Override
@@ -40,8 +39,7 @@ public class FanavaranPolicyServiceImpl implements FanavaranPolicyService {
 
     @Override
     public BaseDTO getAllFanavaranPolicies(int page, int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = pageableUtility.createPageable(page, size, Sort.by(Sort.Order.asc("id")));
         Page<FanavaranPolicy> fanavaranPolicies = fanavaranPolicyRepository.findAll(pageable);
         List<FanavaranPolicyDTO> fanavaranPolicyDTOS = fanavaranPolicies.stream()
                 .map(fanavaranPolicyMapper::DTO_FanavaranPolicyDTO)

@@ -7,6 +7,7 @@ import com.haytech.demo_referralmanagement.model.dto.CompanyDTO;
 public interface CompanyService {
     BaseDTO createCompany(CompanyDTO company);
 
+    BaseDTO getAllCompanies();
     BaseDTO getAllCompanies(int page, int size);
 
     BaseDTO updateCompany(Long companyId, CompanyDTO updatedCompany);

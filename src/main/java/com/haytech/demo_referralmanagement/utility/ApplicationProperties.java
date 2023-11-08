@@ -1,6 +1,7 @@
 package com.haytech.demo_referralmanagement.utility;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
@@ -18,10 +19,13 @@ import javax.annotation.Resource;
         )
 })
 public class ApplicationProperties {
-    @Resource
-    private Environment environment;
 
-    public String getProperty(String name) {
+    private static Environment environment;
+    @Autowired
+    ApplicationProperties(Environment environment) {
+        ApplicationProperties.environment = environment;
+    }
+    public static String getProperty(String name) {
         return environment.getProperty(name);
     }
 

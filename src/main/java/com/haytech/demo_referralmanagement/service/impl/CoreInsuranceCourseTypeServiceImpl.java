@@ -2,18 +2,14 @@ package com.haytech.demo_referralmanagement.service.impl;
 
 import com.haytech.demo_referralmanagement.model.base.BaseDTO;
 import com.haytech.demo_referralmanagement.model.base.MetaDTO;
-import com.haytech.demo_referralmanagement.model.dto.CompanyDTO;
 import com.haytech.demo_referralmanagement.model.dto.CoreInsuranceCourseTypeDTO;
-import com.haytech.demo_referralmanagement.model.entity.Company;
 import com.haytech.demo_referralmanagement.model.entity.CoreInsuranceCourseType;
 import com.haytech.demo_referralmanagement.model.mapper.CoreInsuranceCourseTypeMapper;
 import com.haytech.demo_referralmanagement.repository.CoreInsuranceCourseTypeRepository;
 import com.haytech.demo_referralmanagement.service.intrface.CoreInsuranceCourseTypeService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import com.haytech.demo_referralmanagement.utility.PageableUtility;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -27,11 +23,13 @@ public class CoreInsuranceCourseTypeServiceImpl implements CoreInsuranceCourseTy
     private final CoreInsuranceCourseTypeMapper coreInsuranceCourseTypeMapper;
 
     private final CoreInsuranceCourseTypeRepository coreInsuranceCourseTypeRepository;
+    private final PageableUtility pageableUtility;
 
-    public CoreInsuranceCourseTypeServiceImpl(ApplicationProperties applicationProperties, CoreInsuranceCourseTypeMapper coreInsuranceCourseTypeMapper, CoreInsuranceCourseTypeRepository coreInsuranceCourseTypeRepository) {
+    public CoreInsuranceCourseTypeServiceImpl(ApplicationProperties applicationProperties, CoreInsuranceCourseTypeMapper coreInsuranceCourseTypeMapper, CoreInsuranceCourseTypeRepository coreInsuranceCourseTypeRepository, PageableUtility pageableUtility) {
         this.applicationProperties = applicationProperties;
         this.coreInsuranceCourseTypeMapper = coreInsuranceCourseTypeMapper;
         this.coreInsuranceCourseTypeRepository = coreInsuranceCourseTypeRepository;
+        this.pageableUtility = pageableUtility;
     }
     @Override
     public BaseDTO findById(Long coreInsuranceCourseId) {
@@ -41,8 +39,7 @@ public class CoreInsuranceCourseTypeServiceImpl implements CoreInsuranceCourseTy
     }
     @Override
     public BaseDTO findAll(int page, int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = pageableUtility.createPageable(page, size, Sort.by(Sort.Order.asc("id")));
         Page<CoreInsuranceCourseType> coreInsuranceCourseTypes = coreInsuranceCourseTypeRepository.findAll(pageable);
         List<CoreInsuranceCourseTypeDTO> coreInsuranceCourseTypeDTOS = coreInsuranceCourseTypes.stream()
                 .map(coreInsuranceCourseTypeMapper::DTO_CoreInsuranceCourseType)

@@ -12,10 +12,8 @@ import com.haytech.demo_referralmanagement.repository.CoreInsuranceCourseTypeRep
 import com.haytech.demo_referralmanagement.repository.InsuranceCourseTypeRepository;
 import com.haytech.demo_referralmanagement.service.intrface.InsuranceCourseTypeService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import com.haytech.demo_referralmanagement.utility.PageableUtility;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -29,13 +27,15 @@ public class InsuranceCourseTypeServiceImpl implements InsuranceCourseTypeServic
     private final CoreInsuranceCourseTypeRepository coreInsuranceCourseTypeRepository;
     private final ApplicationProperties applicationProperties;
     private final InsuranceCourseTypeMapper insuranceCourseTypeMapper;
+    private final PageableUtility pageableUtility;
 
-    public InsuranceCourseTypeServiceImpl(InsuranceCourseTypeRepository insuranceCourseTypeRepository, CompanyRepository companyRepository, CoreInsuranceCourseTypeRepository coreInsuranceCourseTypeRepository, ApplicationProperties applicationProperties, InsuranceCourseTypeMapper insuranceCourseTypeMapper) {
+    public InsuranceCourseTypeServiceImpl(InsuranceCourseTypeRepository insuranceCourseTypeRepository, CompanyRepository companyRepository, CoreInsuranceCourseTypeRepository coreInsuranceCourseTypeRepository, ApplicationProperties applicationProperties, InsuranceCourseTypeMapper insuranceCourseTypeMapper, PageableUtility pageableUtility) {
         this.insuranceCourseTypeRepository = insuranceCourseTypeRepository;
         this.companyRepository = companyRepository;
         this.coreInsuranceCourseTypeRepository = coreInsuranceCourseTypeRepository;
         this.applicationProperties = applicationProperties;
         this.insuranceCourseTypeMapper = insuranceCourseTypeMapper;
+        this.pageableUtility = pageableUtility;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class InsuranceCourseTypeServiceImpl implements InsuranceCourseTypeServic
     }
     @Override
     public BaseDTO getAllInsuranceCoursesType(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = pageableUtility.createPageable(page, size, Sort.by(Sort.Order.asc("id")));
         Page<InsuranceCourseType> insuranceCourseTypes = insuranceCourseTypeRepository.findAll(pageable);
         List<InsuranceCourseTypeDTO> insuranceCourseTypeDTOList = insuranceCourseTypes.stream()
                 .map(insuranceCourseTypeMapper::DTO_Course)
