@@ -24,14 +24,18 @@ public class CoreInsuranceCourseController {
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/v1/all_core_insurance_courses")
+    public ResponseEntity<?> getCoreInsuranceCourses() {
+        BaseDTO baseDTO = coreInsuranceCourseTypeService.findAll();
+        return new ResponseEntity<>(baseDTO, HttpStatus.OK);
+    }
     @GetMapping(value = "/v1/core_insurance_courses")
     public ResponseEntity<?> getCoreInsuranceCourses(
-            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
         BaseDTO baseDTO = coreInsuranceCourseTypeService.findAll(page,size);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);
     }
-
     @PostMapping(value = "/v1/core_insurance_course")
     public ResponseEntity<?> createCoreInsuranceCourseType(@RequestBody CoreInsuranceCourseTypeDTO coreInsuranceCourseType) {
         BaseDTO baseDTO = coreInsuranceCourseTypeService.createCoreInsuranceCourseType(coreInsuranceCourseType);

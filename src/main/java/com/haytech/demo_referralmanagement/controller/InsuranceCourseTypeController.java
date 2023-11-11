@@ -18,7 +18,7 @@ public class InsuranceCourseTypeController {
 
     @GetMapping(value = "/v1/insurance_courses_type")
     public ResponseEntity<?> getAllCourses(
-            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
 
         BaseDTO baseDTO = insuranceCourseTypeService.getAllInsuranceCoursesType(page,size);

@@ -22,7 +22,7 @@ public class FanavaranPolicyController {
 
     @GetMapping(value = "/v1/fanavaran-policies")
     public ResponseEntity<?> getAllFanavaranPolicies(
-            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
         BaseDTO baseDTO = fanavaranPolicyService.getAllFanavaranPolicies(page,size);
         return new ResponseEntity<>(baseDTO, HttpStatus.OK);

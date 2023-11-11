@@ -8,10 +8,8 @@ import com.haytech.demo_referralmanagement.model.mapper.CompanyMapper;
 import com.haytech.demo_referralmanagement.repository.CompanyRepository;
 import com.haytech.demo_referralmanagement.service.intrface.CompanyService;
 import com.haytech.demo_referralmanagement.utility.ApplicationProperties;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import com.haytech.demo_referralmanagement.utility.PageableUtility;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
@@ -24,25 +22,29 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
     private final ApplicationProperties applicationProperties;
     private final CompanyMapper companyMapper;
+    private final PageableUtility pageableUtility;
 
-    public CompanyServiceImpl(CompanyRepository companyRepository, ApplicationProperties applicationProperties, CompanyMapper companyMapper) {
+    public CompanyServiceImpl(CompanyRepository companyRepository, ApplicationProperties applicationProperties, CompanyMapper companyMapper, PageableUtility pageableUtility) {
         this.companyRepository = companyRepository;
         this.applicationProperties = applicationProperties;
         this.companyMapper = companyMapper;
+        this.pageableUtility = pageableUtility;
     }
 
     @Override
     public BaseDTO getCompany(Long companyId) {
         return new BaseDTO(MetaDTO.getInstance(applicationProperties),
                 companyMapper.DTO_Company(
-                        companyRepository.findById(companyId).orElseThrow(() -> new EntityNotFoundException("company Not Found..."))));
+                        companyRepository.findById(companyId)
+                                .orElseThrow(() -> new EntityNotFoundException("company Not Found..."))));
 
     }
 
     @Override
     public BaseDTO getAllCompaniesById(int page, int size, Long companyId) {
+        Pageable pageable = pageableUtility.createPageable(page, size,Sort.by(Sort.Order.asc("id")));
+
         if (companyId != null) {
-            Pageable pageable = PageRequest.of(page, size);
             Page<Company> companies = companyRepository.findAllById(pageable, companyId);
             List<CompanyDTO> companyDTOS = companies.stream()
                     .map(companyMapper::DTO_Company)
@@ -50,7 +52,6 @@ public class CompanyServiceImpl implements CompanyService {
             Page<CompanyDTO> companyDTOPage = new PageImpl<>(companyDTOS, pageable, companies.getTotalElements());
             return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyDTOPage);
         }else {
-            Pageable pageable = PageRequest.of(page, size);
             Page<Company> companies = companyRepository.findAll(pageable);
             List<CompanyDTO> companyDTOS = companies.stream()
                     .map(companyMapper::DTO_Company)
@@ -59,10 +60,14 @@ public class CompanyServiceImpl implements CompanyService {
             return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyDTOPage);
         }
     }
-
+    @Override
+    public BaseDTO getAllCompanies() {
+        List<Company> result = companyRepository.findAll();
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties), companyMapper.DTO_LIST(result));
+    }
     @Override
     public BaseDTO getAllCompanies(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = pageableUtility.createPageable(page, size,Sort.by(Sort.Order.asc("id")));
         Page<Company> companies = companyRepository.findAll(pageable);
         List<CompanyDTO> companyDTOS = companies.stream()
                 .map(companyMapper::DTO_Company)

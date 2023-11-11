@@ -7,6 +7,7 @@ public interface CoreInsuranceCourseTypeService {
     BaseDTO findById(Long coreInsuranceCourseId);
 
     BaseDTO findAll(int page, int size);
+    BaseDTO findAll();
 
     BaseDTO createCoreInsuranceCourseType(CoreInsuranceCourseTypeDTO coreInsuranceCourseType);
 

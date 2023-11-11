@@ -49,6 +49,11 @@ public class CoreInsuranceCourseTypeServiceImpl implements CoreInsuranceCourseTy
 
     }
     @Override
+    public BaseDTO findAll() {
+        return new BaseDTO(MetaDTO.getInstance(applicationProperties),
+                coreInsuranceCourseTypeMapper.DTO_LIST(coreInsuranceCourseTypeRepository.findAll()));
+    }
+    @Override
     public BaseDTO createCoreInsuranceCourseType(CoreInsuranceCourseTypeDTO coreInsuranceCourseType) {
 
         return new BaseDTO(MetaDTO.getInstance(applicationProperties
